@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuklamalar | Cisco Packet Tracer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0a0c10; color: #e5e7eb; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .resource-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            border-color: #3b82f6;
+            transform: translateX(5px);
+        }
+        
+        .download-btn {
+            background: #1e293b;
+            transition: all 0.3s ease;
+        }
+        
+        .download-btn:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (index.html bilan bir xil) -->
+    <nav class="bg-[#0a0c10] border-b border-gray-800 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition">Bosh sahifa</a>
+                    <a href="darslar.html" class="text-gray-300 hover:text-blue-400 transition">Darslar</a>
+                    <a href="loyihalar.html" class="text-gray-300 hover:text-blue-400 transition">Loyihalar</a>
+                    <a href="yuklamalar.html" class="text-blue-400 border-b-2 border-blue-400 pb-1">Yuklamalar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">📥 <span class="gradient-text">Yuklamalar</span></h1>
+        <p class="text-xl text-gray-400">Barcha resurslar bir joyda - .pkt fayllar, darsliklar, cheat sheetlar</p>
+    </div>
+
+    <!-- Download Cards -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Packet Tracer Fayllar -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i class="fas fa-file-archive text-blue-500 mr-3"></i>
+                Packet Tracer laboratoriyalari (.pkt)
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- 1-6 darslar -->
+                <div class="resource-card p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-green-600/20 rounded-lg flex items-center justify-center">
+                                <span class="text-green-400 font-bold">1-6</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">Boshlang'ich darslar</h3>
+                                <p class="text-xs text-gray-400">OSI, IP, Subnetting, DHCP</p>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('boshlangich-darslar.zip')" class="download-btn px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-download mr-2"></i>ZIP
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 7-12 darslar -->
+                <div class="resource-card p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-yellow-600/20 rounded-lg flex items-center justify-center">
+                                <span class="text-yellow-400 font-bold">7-12</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">O'rta darslar</h3>
+                                <p class="text-xs text-gray-400">VLAN, Trunk, OSPF, STP</p>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('orta-darslar.zip')" class="download-btn px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-download mr-2"></i>ZIP
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 13-18 darslar -->
+                <div class="resource-card p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-red-600/20 rounded-lg flex items-center justify-center">
+                                <span class="text-red-400 font-bold">13-18</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">Yuqori darslar</h3>
+                                <p class="text-xs text-gray-400">ACL, NAT, IPv6, Port security</p>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('yuqori-darslar.zip')" class="download-btn px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-download mr-2"></i>ZIP
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- 19-24 darslar -->
+                <div class="resource-card p-4 rounded-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                                <span class="text-purple-400 font-bold">19-24</span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold">Ekspert darslar</h3>
+                                <p class="text-xs text-gray-400">VPN, Firewall, WiFi, 7 qavat</p>
+                            </div>
+                        </div>
+                        <button onclick="downloadFile('ekspert-darslar.zip')" class="download-btn px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-download mr-2"></i>ZIP
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Katta loyihalar -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i class="fas fa-project-diagram text-blue-500 mr-3"></i>
+                Katta loyihalar
+            </h2>
+            
+            <div class="grid grid-cols-1 gap-4">
+                <!-- 7 qavatli bino -->
+                <div class="resource-card p-6 rounded-lg border-l-4 border-blue-500">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="text-4xl">🏢</div>
+                            <div>
+                                <h3 class="text-xl font-bold">7 qavatli zamonaviy bino</h3>
+                                <p class="text-gray-400 text-sm mb-2">Full enterprise network - VLAN, Inter-VLAN, DHCP, NAT, Firewall, WiFi, QoS</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">7 VLAN</span>
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">Core Switch</span>
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">ASA</span>
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">WiFi 6</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <button onclick="downloadFile('7-qavatli-bino-complete.pkt')" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-medium transition">
+                                <i class="fas fa-download mr-2"></i>Yuklab olish (2.4 MB)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ISP tarmog'i -->
+                <div class="resource-card p-6 rounded-lg">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between">
+                        <div class="flex items-start space-x-4">
+                            <div class="text-4xl">🌐</div>
+                            <div>
+                                <h3 class="text-xl font-bold">ISP tarmog'i (BGP)</h3>
+                                <p class="text-gray-400 text-sm mb-2">3 ta ISP, BGP routing, MPLS, QoS</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">BGP</span>
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">MPLS</span>
+                                    <span class="text-xs bg-gray-800 px-3 py-1 rounded-full">QoS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 md:mt-0">
+                            <button onclick="downloadFile('isp-bgp.pkt')" class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg font-medium transition">
+                                <i class="fas fa-download mr-2"></i>Yuklab olish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cheat Sheets va Dokumentlar -->
+        <div>
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i class="fas fa-file-pdf text-blue-500 mr-3"></i>
+                Cheat Sheets va Qo'llanmalar
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- CLI Cheat Sheet -->
+                <div class="resource-card p-4 rounded-lg flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-terminal text-2xl text-green-500"></i>
+                        <div>
+                            <h4 class="font-semibold">CLI Cheat Sheet</h4>
+                            <p class="text-xs text-gray-400">Barcha CLI komandalar</p>
+                        </div>
+                    </div>
+                    <button onclick="downloadFile('cli-cheatsheet.pdf')" class="text-blue-400 hover:text-blue-300">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                
+                <!-- Subnetting jadvali -->
+                <div class="resource-card p-4 rounded-lg flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-table text-2xl text-yellow-500"></i>
+                        <div>
+                            <h4 class="font-semibold">Subnetting jadvali</h4>
+                            <p class="text-xs text-gray-400">/24 dan /30 gacha</p>
+                        </div>
+                    </div>
+                    <button onclick="downloadFile('subnetting.pdf')" class="text-blue-400 hover:text-blue-300">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+                
+                <!-- VLAN cheat sheet -->
+                <div class="resource-card p-4 rounded-lg flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-tags text-2xl text-purple-500"></i>
+                        <div>
+                            <h4 class="font-semibold">VLAN qo'llanma</h4>
+                            <p class="text-xs text-gray-400">VLAN, Trunk, VTP</p>
+                        </div>
+                    </div>
+                    <button onclick="downloadFile('vlan-guide.pdf')" class="text-blue-400 hover:text-blue-300">
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cisco Packet Tracer yuklash -->
+        <div class="mt-12 bg-gray-900 p-8 rounded-2xl text-center">
+            <i class="fas fa-download text-5xl text-blue-500 mb-4"></i>
+            <h3 class="text-2xl font-bold mb-2">Cisco Packet Tracer yuklash</h3>
+            <p class="text-gray-400 mb-6">So'nggi versiya 8.2.1 (Windows, Linux, Mac)</p>
+            <a href="#" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl text-lg font-medium inline-flex items-center">
+                <i class="fas fa-download mr-2"></i>Rasmiy saytdan yuklash
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function downloadFile(filename) {
+            alert(`📥 Yuklanmoqda: ${filename}\n\nReal loyihada bu fayl serverdan yuklanadi.`);
+        }
+    </script>
+</body>
+</html>

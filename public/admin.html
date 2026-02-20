@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin panel | Cisco & Python</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stillar -->
+<link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background: #0a0c10;
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+        }
+        .admin-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th {
+            background: #1f2937;
+            padding: 12px;
+            text-align: left;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <nav class="bg-[#0a0c10] border-b border-gray-800 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-crown text-yellow-500 text-2xl"></i>
+                <span class="text-xl font-bold">Admin Panel</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span id="admin-name" class="text-gray-400"></span>
+                <button id="logout-btn" class="bg-red-600/20 text-red-400 px-4 py-2 rounded-lg">Chiqish</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="max-w-7xl mx-auto p-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="admin-card p-6 rounded-xl">
+                <div class="text-3xl font-bold text-blue-400" id="total-users">0</div>
+                <div class="text-gray-400">Jami foydalanuvchilar</div>
+            </div>
+            <div class="admin-card p-6 rounded-xl">
+                <div class="text-3xl font-bold text-green-400" id="new-today">0</div>
+                <div class="text-gray-400">Bugun ro'yxatdan o'tgan</div>
+            </div>
+            <div class="admin-card p-6 rounded-xl">
+                <div class="text-3xl font-bold text-yellow-400" id="active-today">0</div>
+                <div class="text-gray-400">Bugun kirgan</div>
+            </div>
+            <div class="admin-card p-6 rounded-xl">
+                <div class="text-3xl font-bold text-purple-400" id="admins">0</div>
+                <div class="text-gray-400">Adminlar</div>
+            </div>
+        </div>
+        
+        <div class="admin-card rounded-xl p-6 mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">📁 klent/foydalanuvchi.txt</h2>
+                <button id="download-txt" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg">
+                    <i class="fas fa-download mr-2"></i>Yuklab olish
+                </button>
+            </div>
+            <div class="bg-black rounded-lg p-4 font-mono text-sm text-green-400 max-h-96 overflow-auto">
+                <pre id="txt-content">Yuklanmoqda...</pre>
+            </div>
+        </div>
+        
+        <div class="admin-card rounded-xl overflow-hidden">
+            <div class="p-4 border-b border-gray-800">
+                <h2 class="text-xl font-bold">Foydalanuvchilar ro'yxati</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ism Familiya</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Ro'yxat sanasi</th>
+                            <th>Rol</th>
+                            <th>Amallar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        if (!token) {
+            window.location.href = '/login';
+        }
+        
+        document.getElementById('admin-name').textContent = user.fullname || 'Admin';
+        
+        async function loadData() {
+            try {
+                // Statistika
+                const statsRes = await fetch('/api/admin/stats', {
+                    headers: { 'x-auth-token': token }
+                });
+                const stats = await statsRes.json();
+                
+                document.getElementById('total-users').textContent = stats.totalUsers;
+                document.getElementById('new-today').textContent = stats.newToday;
+                document.getElementById('active-today').textContent = stats.activeToday;
+                document.getElementById('admins').textContent = stats.admins;
+                
+                // Foydalanuvchilar
+                const usersRes = await fetch('/api/admin/users', {
+                    headers: { 'x-auth-token': token }
+                });
+                const users = await usersRes.json();
+                
+                let tableHtml = '';
+                users.forEach(u => {
+                    tableHtml += `
+                        <tr>
+                            <td>${u.id}</td>
+                            <td>${u.fullname}</td>
+                            <td>${u.email}</td>
+                            <td>${u.phone || '-'}</td>
+                            <td>${new Date(u.registeredAt).toLocaleString('uz-UZ')}</td>
+                            <td>
+                                <span class="${u.role === 'admin' ? 'text-yellow-400' : 'text-gray-400'}">${u.role}</span>
+                            </td>
+                            <td>
+                                ${u.role !== 'admin' ? `
+                                    <button onclick="deleteUser(${u.id})" class="text-red-400 hover:text-red-300">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                ` : '-'}
+                            </td>
+                        </tr>
+                    `;
+                });
+                document.getElementById('users-table').innerHTML = tableHtml;
+                
+            } catch (err) {
+                console.error('Xatolik:', err);
+            }
+        }
+        
+        async function deleteUser(id) {
+            if (!confirm('Bu foydalanuvchini o\'chirishni xohlaysizmi?')) return;
+            
+            try {
+                const res = await fetch(`/api/admin/users/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'x-auth-token': token }
+                });
+                
+                if (res.ok) {
+                    alert('✅ Foydalanuvchi o\'chirildi');
+                    loadData();
+                }
+            } catch (err) {
+                alert('❌ Xatolik yuz berdi');
+            }
+        }
+        
+        document.getElementById('download-txt').addEventListener('click', async () => {
+            try {
+                const res = await fetch('/api/admin/download-klent', {
+                    headers: { 'x-auth-token': token }
+                });
+                
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'foydalanuvchi.txt';
+                    a.click();
+                }
+            } catch (err) {
+                alert('❌ Yuklab olishda xatolik');
+            }
+        });
+        
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/';
+        });
+        
+        loadData();
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "darslar": [
+    {
+      "id": 1,
+      "nomi": "Kabellar va qurilmalar",
+      "category": "beginner",
+      "level": "Boshlang'ich",
+      "icon": "🔌",
+      "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "pkt_fayl": "1-kabellar.pkt"
+    }
+    
+  ]
+}

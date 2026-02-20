@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darslar | Python Cyber Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Progress section styles */
+        .progress-container {
+            background: linear-gradient(135deg, #1e293b, #111827);
+            border: 1px solid #334155;
+        }
+        
+        .stats-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            transition: all 0.3s;
+        }
+        
+        .stats-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+    </style>
+    <script>
+    // Login tekshirish - agar foydalanuvchi kirmagan bo'lsa, login sahifasiga o'tkazish
+    (function() {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        if (!token || !user.id) {
+            // Foydalanuvchi kirmagan - login sahifasiga o'tkazish
+            window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+        }
+    })();
+</script>
+</head>
+<body>
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="loader"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Python<span class="text-blue-500">Sec</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                   <!-- TO'G'RI: -->
+                   <a href="/python">Bosh sahifa</a>
+                   <a href="/python/darslar">Darslar</a>
+                   <a href="/python/kutubxonalar">Kutubxonalar</a>
+                   <a href="/python/loyihalar">Loyihalar</a>
+                   <a href="/python/yuklamalar">Yuklamalar</a>
+                   
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="search-toggle" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="md:hidden">
+                        <button id="mobile-menu-btn" class="text-gray-400 hover:text-white">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="/" class="block px-3 py-2 text-gray-300">Bosh sahifa</a>
+                <a href="/darslar" class="block px-3 py-2 text-blue-400">Darslar</a>
+                <a href="/kutubxonalar" class="block px-3 py-2 text-gray-300">Kutubxonalar</a>
+                <a href="/loyihalar" class="block px-3 py-2 text-gray-300">Loyihalar</a>
+                <a href="/yuklamalar" class="block px-3 py-2 text-gray-300">Yuklamalar</a>
+            </div>
+        </div>
+        <div id="search-bar" class="hidden border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-3 text-gray-500"></i>
+                    <input type="text" id="search-input" placeholder="Darslarni qidirish..." 
+                           class="w-full bg-gray-900 border border-gray-700 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:border-blue-500">
+                    <button id="search-clear" class="absolute right-4 top-3 text-gray-500 hover:text-white hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2">🐍 <span class="gradient-text">24 darslik Python kursi</span></h1>
+            <p class="text-gray-400">Kiberxavfsizlik uchun Python kutubxonalari</p>
+        </div>
+        
+        <!-- PROGRESS SECTION - YANGI QO'SHILDI -->
+        <div class="progress-container rounded-xl p-6 mb-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-chart-line text-blue-500 mr-2"></i>
+                        Sizning progress
+                    </h2>
+                    <p class="text-sm text-gray-400">Qaysi darslarni tugatganingizni belgilang</p>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <span id="completed-count" class="text-3xl font-bold text-blue-400">0</span>
+                        <span class="text-gray-400">/24</span>
+                    </div>
+                    <div class="w-48 bg-gray-700 rounded-full h-4">
+                        <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <span id="progress-percent" class="text-sm font-medium text-blue-400 min-w-[50px]">0%</span>
+                    <button id="reset-progress" class="text-gray-500 hover:text-red-400 transition" title="Progressni tozalash">
+                        <i class="fas fa-undo-alt text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Stats cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                <div class="stats-card rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-green-400" id="basic-count">0</div>
+                    <div class="text-xs text-gray-400">Boshlang'ich</div>
+                </div>
+                <div class="stats-card rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-yellow-400" id="crypto-count">0</div>
+                    <div class="text-xs text-gray-400">Kriptografiya</div>
+                </div>
+                <div class="stats-card rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-blue-400" id="network-count">0</div>
+                    <div class="text-xs text-gray-400">Tarmoq</div>
+                </div>
+                <div class="stats-card rounded-lg p-3 text-center">
+                    <div class="text-2xl font-bold text-purple-400" id="web-count">0</div>
+                    <div class="text-xs text-gray-400">Web</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 text-white" data-filter="all">Barcha darslar</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="basic">Boshlang'ich</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="crypto">Kriptografiya</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="network">Tarmoq</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="web">Web</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="malware">Malware</button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700" data-filter="exploit">Exploit</button>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-4 xl:col-span-3">
+                <div class="card p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold flex items-center">
+                            <i class="fas fa-list mr-2 text-blue-500"></i>
+                            Darslar ro'yxati
+                        </h3>
+                        <span id="lessons-count" class="text-xs bg-gray-800 px-2 py-1 rounded-full">24 ta</span>
+                    </div>
+                    <div id="lessons-list" class="space-y-1"></div>
+                </div>
+            </div>
+            
+            <div class="lg:col-span-8 xl:col-span-9">
+                <div id="lesson-content" class="card p-6">
+                    <div class="flex items-center justify-center py-20">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+            © 2024 Python Cyber Security kursi
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Kategoriyalar bo'yicha statistikani yangilash
+        function updateCategoryStats() {
+            if (!darslar || darslar.length === 0) return;
+            
+            const categories = {
+                basic: document.getElementById('basic-count'),
+                crypto: document.getElementById('crypto-count'),
+                network: document.getElementById('network-count'),
+                web: document.getElementById('web-count')
+            };
+            
+            Object.keys(categories).forEach(cat => {
+                if (categories[cat]) {
+                    const total = darslar.filter(d => d.category === cat).length;
+                    const completed = darslar.filter(d => d.category === cat && completedLessons.includes(d.id)).length;
+                    categories[cat].textContent = `${completed}/${total}`;
+                }
+            });
+        }
+        
+        // Har safar progress o'zgarganda statistikani yangilash
+        const originalUpdateProgress = updateProgress;
+        updateProgress = function() {
+            originalUpdateProgress();
+            updateCategoryStats();
+        };
+    </script>
+</body>
+</html>

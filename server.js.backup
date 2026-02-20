@@ -1,0 +1,236 @@
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const fs = require('fs-extra');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+// MUHIM: app ni yaratish
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static fayllar
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Ma'lumotlar papkasini yaratish
+const dataDir = path.join(__dirname, 'data');
+fs.ensureDirSync(dataDir);
+
+// ==================== CISCO KURSI API ====================
+app.get('/api/cisco/darslar', async (req, res) => {
+    try {
+        const darslarPath = path.join(__dirname, 'courses', 'cisco', 'data', 'darslar.json');
+        
+        // Fayl borligini tekshirish
+        if (!await fs.pathExists(darslarPath)) {
+            return res.status(404).json({ error: 'Darslar fayli topilmadi' });
+        }
+        
+        const darslar = await fs.readJson(darslarPath);
+        res.json(darslar);
+    } catch (error) {
+        console.error('Cisco darslari yuklanmadi:', error);
+        res.status(500).json({ error: 'Darslar yuklanmadi', details: error.message });
+    }
+});
+
+app.get('/api/cisco/darslar/:id', async (req, res) => {
+    try {
+        const darslarPath = path.join(__dirname, 'courses', 'cisco', 'data', 'darslar.json');
+        const darslar = await fs.readJson(darslarPath);
+        const dars = darslar.find(d => d.id === parseInt(req.params.id));
+        
+        if (dars) {
+            res.json(dars);
+        } else {
+            res.status(404).json({ error: 'Dars topilmadi' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server xatoligi' });
+    }
+});
+
+// ==================== PYTHON KURSI API ====================
+app.get('/api/python/darslar', async (req, res) => {
+    try {
+        const darslarPath = path.join(__dirname, 'courses', 'python', 'data', 'pythondarslar.json');
+        
+        // Fayl borligini tekshirish
+        if (!await fs.pathExists(darslarPath)) {
+            return res.status(404).json({ error: 'Python darslari fayli topilmadi' });
+        }
+        
+        const darslar = await fs.readJson(darslarPath);
+        res.json(darslar);
+    } catch (error) {
+        console.error('Python darslari yuklanmadi:', error);
+        res.status(500).json({ error: 'Darslar yuklanmadi', details: error.message });
+    }
+});
+
+app.get('/api/python/darslar/:id', async (req, res) => {
+    try {
+        const darslarPath = path.join(__dirname, 'courses', 'python', 'data', 'pythondarslar.json');
+        const darslar = await fs.readJson(darslarPath);
+        const dars = darslar.find(d => d.id === parseInt(req.params.id));
+        
+        if (dars) {
+            res.json(dars);
+        } else {
+            res.status(404).json({ error: 'Dars topilmadi' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Server xatoligi' });
+    }
+});
+
+app.get('/api/python/kutubxonalar', async (req, res) => {
+    try {
+        const darslarPath = path.join(__dirname, 'courses', 'python', 'data', 'pythondarslar.json');
+        const darslar = await fs.readJson(darslarPath);
+        
+        const kutubxonalar = {};
+        darslar.forEach(dars => {
+            if (dars.libraries && Array.isArray(dars.libraries)) {
+                dars.libraries.forEach(lib => {
+                    if (!kutubxonalar[lib]) {
+                        kutubxonalar[lib] = {
+                            nomi: lib,
+                            darslar: [],
+                            category: dars.category
+                        };
+                    }
+                    kutubxonalar[lib].darslar.push(dars.id);
+                });
+            }
+        });
+        
+        res.json(Object.values(kutubxonalar));
+    } catch (error) {
+        res.status(500).json({ error: 'Server xatoligi' });
+    }
+});
+
+// ==================== UMUMIY API ====================
+app.get('/api/stats', async (req, res) => {
+    try {
+        let ciscoDarslar = [];
+        let pythonDarslar = [];
+        
+        const ciscoPath = path.join(__dirname, 'courses', 'cisco', 'data', 'darslar.json');
+        const pythonPath = path.join(__dirname, 'courses', 'python', 'data', 'pythondarslar.json');
+        
+        if (await fs.pathExists(ciscoPath)) {
+            ciscoDarslar = await fs.readJson(ciscoPath);
+        }
+        
+        if (await fs.pathExists(pythonPath)) {
+            pythonDarslar = await fs.readJson(pythonPath);
+        }
+        
+        res.json({
+            cisco: {
+                total: ciscoDarslar.length,
+                categories: {
+                    beginner: ciscoDarslar.filter(d => d.category === 'beginner').length,
+                    intermediate: ciscoDarslar.filter(d => d.category === 'intermediate').length,
+                    advanced: ciscoDarslar.filter(d => d.category === 'advanced').length,
+                    expert: ciscoDarslar.filter(d => d.category === 'expert').length
+                }
+            },
+            python: {
+                total: pythonDarslar.length,
+                categories: {
+                    basic: pythonDarslar.filter(d => d.category === 'basic').length,
+                    crypto: pythonDarslar.filter(d => d.category === 'crypto').length,
+                    network: pythonDarslar.filter(d => d.category === 'network').length,
+                    web: pythonDarslar.filter(d => d.category === 'web').length,
+                    malware: pythonDarslar.filter(d => d.category === 'malware').length,
+                    exploit: pythonDarslar.filter(d => d.category === 'exploit').length,
+                    project: pythonDarslar.filter(d => d.category === 'project').length
+                }
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ error: 'Server xatoligi' });
+    }
+});
+
+// ==================== SAHIFALAR ====================
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Cisco kursi sahifalari
+app.get('/cisco/darslar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'darslar.html'));
+});
+
+app.get('/cisco/loyihalar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'loyihalar.html'));
+});
+
+app.get('/cisco/yuklamalar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'yuklamalar.html'));
+});
+
+app.get('/cisco/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'admin.html'));
+});
+
+app.get('/cisco/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'login.html'));
+});
+
+app.get('/cisco/register', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'register.html'));
+});
+
+app.get('/cisco/profile', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'cisco', 'profile.html'));
+});
+
+// Python kursi sahifalari
+app.get('/python/darslar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python', 'darslar.html'));
+});
+
+app.get('/python/kutubxonalar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python', 'kutubxonalar.html'));
+});
+
+app.get('/python/loyihalar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python', 'loyihalar.html'));
+});
+
+app.get('/python/yuklamalar', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python', 'yuklamalar.html'));
+});
+
+app.get('/python/index', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'python', 'index.html'));
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({ error: 'Sahifa topilmadi' });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ error: 'Server xatoligi' });
+});
+
+app.listen(PORT, () => {
+    console.log(`🚀 SERVER ISHLAYAPTI: http://localhost:${PORT}`);
+    console.log(`📚 Cisco kursi: http://localhost:${PORT}/cisco/darslar`);
+    console.log(`🐍 Python kursi: http://localhost:${PORT}/python/darslar`);
+    console.log(`📁 Ma'lumotlar papkasi: ${dataDir}`);
+});

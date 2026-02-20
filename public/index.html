@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco & Python & SysAdmin | Kiberxavfsizlik va Tizim Administratorligi</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0c10 0%, #111827 100%);
+            color: #e5e7eb;
+            min-height: 100vh;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-green {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gradient-text-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .navbar {
+            background: rgba(10, 12, 16, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #1e293b;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .nav-link {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            color: #3b82f6;
+        }
+        
+        .course-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .course-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2);
+        }
+        
+        .course-card.cisco:hover {
+            border-color: #3b82f6;
+        }
+        
+        .course-card.python:hover {
+            border-color: #22c55e;
+        }
+        
+        .course-card.sysadmin:hover {
+            border-color: #8b5cf6;
+        }
+        
+        .hero-section {
+            background: radial-gradient(circle at top right, #1e3a8a20, #0a0c10);
+            padding: 5rem 0;
+        }
+        
+        .stat-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="loader border-4 border-gray-700 border-t-blue-600 rounded-full w-12 h-12 animate-spin"></div>
+    </div>
+    
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <div class="flex items-center space-x-3">
+            <i class="fas fa-check-circle text-blue-500 text-xl"></i>
+            <p id="toast-message" class="text-sm"></p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-shield-alt text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold">
+                        <span class="gradient-text">Cisco</span>
+                        <span class="text-white"> & </span>
+                        <span class="gradient-text-green">Python</span>
+                        <span class="text-white"> & </span>
+                        <span class="gradient-text-blue">SysAdmin</span>
+                    </span>
+                </div>
+                
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/" class="nav-link active">Bosh sahifa</a>
+                    <a href="/cisco/darslar" class="nav-link">Cisco</a>
+                    <a href="/python/darslar" class="nav-link">Python</a>
+                    <a href="/sysadmin/darslar" class="nav-link">SysAdmin</a>
+                    
+                    <!-- Auth buttons (dynamic) -->
+                    <div class="auth-buttons flex items-center space-x-4">
+                        <a href="/login" class="nav-link">Kirish</a>
+                        <a href="/register" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition">
+                            Ro'yxatdan o'tish
+                        </a>
+                    </div>
+                    
+                    <!-- Profile (hidden by default) -->
+                    <div class="profile-link hidden flex items-center space-x-4">
+                        <button onclick="userAuth.goToProfile()" class="flex items-center space-x-2 hover:text-blue-400">
+                            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-sm font-bold user-avatar hidden">U</div>
+                            <span class="user-name hidden">Foydalanuvchi</span>
+                        </button>
+                        <button onclick="userAuth.logout()" class="logout-btn bg-red-600/20 text-red-400 hover:bg-red-600/30 px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Chiqish
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-800">
+            <div class="px-4 py-2 space-y-2">
+                <a href="/" class="block py-2 text-blue-400">Bosh sahifa</a>
+                <a href="/cisco/darslar" class="block py-2 text-gray-300 hover:text-blue-400">Cisco</a>
+                <a href="/python/darslar" class="block py-2 text-gray-300 hover:text-green-400">Python</a>
+                <a href="/sysadmin/darslar" class="block py-2 text-gray-300 hover:text-purple-400">SysAdmin</a>
+                
+                <div class="auth-buttons pt-2 border-t border-gray-800">
+                    <a href="/login" class="block py-2 text-gray-300">Kirish</a>
+                    <a href="/register" class="block py-2 text-blue-400">Ro'yxatdan o'tish</a>
+                </div>
+                
+                <div class="profile-link hidden pt-2 border-t border-gray-800">
+                    <button onclick="userAuth.goToProfile()" class="block w-full text-left py-2 text-gray-300">
+                        <i class="fas fa-user mr-2"></i>
+                        <span class="user-name">Profil</span>
+                    </button>
+                    <button onclick="userAuth.logout()" class="block w-full text-left py-2 text-red-400">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Chiqish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="inline-flex items-center bg-blue-600/20 text-blue-400 px-4 py-2 rounded-full text-sm mb-6">
+                    <i class="fas fa-certificate mr-2"></i>
+                    <span>3 ta kurs • 72 dars • 40+ texnologiya</span>
+                </div>
+                
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    <span class="gradient-text">Cisco</span><span class="text-white">,</span>
+                    <span class="gradient-text-green">Python</span><span class="text-white"> &</span><br>
+                    <span class="gradient-text-blue">Tizim Administratorligi</span>
+                </h1>
+                
+                <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+                    Network muhandislik, kiberxavfsizlik va tizim boshqaruvi. 
+                    <span class="text-blue-400 font-semibold">72 dars</span>, 
+                    <span class="text-green-400 font-semibold">40+ texnologiya</span> va 
+                    <span class="text-purple-400 font-semibold">real loyihalar</span>.
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="/register" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl text-lg font-medium transition transform hover:scale-105">
+                        <i class="fas fa-user-plus mr-2"></i>Bepul boshlash
+                    </a>
+                    <a href="#courses" class="bg-gray-800 hover:bg-gray-700 px-8 py-4 rounded-xl text-lg font-medium transition">
+                        <i class="fas fa-info-circle mr-2"></i>Kurslar haqida
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="stat-card p-6 text-center">
+                    <i class="fas fa-network-wired text-blue-500 text-3xl mb-3"></i>
+                    <div class="text-3xl font-bold text-blue-400">24</div>
+                    <div class="text-sm text-gray-400">Cisco darslari</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <i class="fab fa-python text-green-500 text-3xl mb-3"></i>
+                    <div class="text-3xl font-bold text-green-400">24</div>
+                    <div class="text-sm text-gray-400">Python darslari</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <i class="fas fa-server text-purple-500 text-3xl mb-3"></i>
+                    <div class="text-3xl font-bold text-purple-400">24</div>
+                    <div class="text-sm text-gray-400">SysAdmin darslari</div>
+                </div>
+                
+                <div class="stat-card p-6 text-center">
+                    <i class="fas fa-users text-yellow-500 text-3xl mb-3"></i>
+                    <div class="text-3xl font-bold text-yellow-400" id="total-users-stat">0</div>
+                    <div class="text-sm text-gray-400">O'quvchilar</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Section -->
+    <section id="courses" class="py-16 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Kurslarimiz</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Uchala kurs ham noldan boshlanadi va real loyihalar bilan yakunlanadi</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Cisco kursi -->
+                <div class="course-card cisco p-8" onclick="window.location.href='/cisco/darslar'">
+                    <div class="w-20 h-20 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-network-wired text-blue-500 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Cisco Packet Tracer</h3>
+                    <p class="text-gray-400 mb-4">Tarmoq administratorligi - 24 dars</p>
+                    
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-500 mr-3"></i>
+                            <span>VLAN, Trunk, VTP</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-500 mr-3"></i>
+                            <span>Static va Dynamic routing</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-blue-500 mr-3"></i>
+                            <span>NAT, ACL, Firewall</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/cisco/darslar" class="inline-flex items-center text-blue-400 hover:text-blue-300">
+                        <span>Kursga o'tish</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- Python kursi -->
+                <div class="course-card python p-8" onclick="window.location.href='/python/darslar'">
+                    <div class="w-20 h-20 bg-green-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fab fa-python text-green-500 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Python Cyber Security</h3>
+                    <p class="text-gray-400 mb-4">Kiberxavfsizlik kutubxonalari - 24 dars</p>
+                    
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <span>Socket, Scapy, Nmap</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <span>Cryptography, Hashlib</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                            <span>Paramiko, Pwntools</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/python/darslar" class="inline-flex items-center text-green-400 hover:text-green-300">
+                        <span>Kursga o'tish</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <!-- SysAdmin kursi -->
+                <div class="course-card sysadmin p-8" onclick="window.location.href='/sysadmin/darslar'">
+                    <div class="w-20 h-20 bg-purple-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-server text-purple-500 text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Tizim Administratorligi</h3>
+                    <p class="text-gray-400 mb-4">Linux, Windows, Cloud - 24 dars</p>
+                    
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-500 mr-3"></i>
+                            <span>Linux va Windows boshqaruvi</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-500 mr-3"></i>
+                            <span>Tarmoq va xavfsizlik</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-purple-500 mr-3"></i>
+                            <span>Virtualizatsiya va Cloud</span>
+                        </div>
+                    </div>
+                    
+                    <a href="/sysadmin/darslar" class="inline-flex items-center text-purple-400 hover:text-purple-300">
+                        <span>Kursga o'tish</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Nega aynan bizning kurslar?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Amaliyotga asoslangan, real loyihalar bilan</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-800/50 p-6 rounded-xl text-center">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-video text-blue-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Video darslar</h3>
+                    <p class="text-gray-400 text-sm">Har bir dars video formatda, tushunarli tushuntirishlar</p>
+                </div>
+                
+                <div class="bg-gray-800/50 p-6 rounded-xl text-center">
+                    <div class="w-16 h-16 bg-green-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-download text-green-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Yuklab olish</h3>
+                    <p class="text-gray-400 text-sm">Barcha materiallar, kodlar va loyihalar yuklab olish mumkin</p>
+                </div>
+                
+                <div class="bg-gray-800/50 p-6 rounded-xl text-center">
+                    <div class="w-16 h-16 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-check-circle text-purple-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Progress kuzatish</h3>
+                    <p class="text-gray-400 text-sm">Qaysi darslarni tugatganingizni belgilab borasiz</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="bg-gradient-to-r from-blue-600 via-green-600 to-purple-600 rounded-3xl p-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Bugun boshlang!</h2>
+                <p class="text-xl mb-8 opacity-90">72 dars, 40+ texnologiya, 10+ loyiha - hammasi bepul</p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="/register" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-medium transition">
+                        <i class="fas fa-user-plus mr-2"></i>Ro'yxatdan o'tish
+                    </a>
+                    <a href="/login" class="bg-blue-500 hover:bg-blue-400 px-8 py-4 rounded-xl text-lg font-medium transition">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Kirish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-shield-alt text-blue-500 text-2xl"></i>
+                        <span class="text-xl font-bold">
+                            <span class="gradient-text">Cisco</span>
+                            <span class="text-white"> & </span>
+                            <span class="gradient-text-green">Python</span>
+                            <span class="text-white"> & </span>
+                            <span class="gradient-text-blue">SysAdmin</span>
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-400">Kiberxavfsizlik va tizim administratorligi kurslari</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Kurslar</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="/cisco/darslar" class="hover:text-blue-400">Cisco Packet Tracer</a></li>
+                        <li><a href="/python/darslar" class="hover:text-green-400">Python Cyber Security</a></li>
+                        <li><a href="/sysadmin/darslar" class="hover:text-purple-400">Tizim Administratorligi</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Hisob</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="/login" class="hover:text-blue-400">Kirish</a></li>
+                        <li><a href="/register" class="hover:text-blue-400">Ro'yxatdan o'tish</a></li>
+                        <li><a href="/profile" class="hover:text-blue-400">Profil</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Bog'lanish</h5>
+                    <div class="flex space-x-4">
+                        <a href="https://t.me/CyberAintBink" class="text-gray-400 hover:text-blue-400 text-2xl">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=blN4Nv0UG5M&list=PLv4_68gEZI2Ro_6F55ZOqNlAKiIZcMMUt" class="text-gray-400 hover:text-blue-400 text-2xl">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://github.com/aintbink03/aicyber" class="text-gray-400 hover:text-blue-400 text-2xl">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mt-8 pt-8 border-t border-gray-800">
+                © 2024 Cisco, Python va SysAdmin kurslari. Barcha huquqlar himoyalangan.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="/middleware.js"></script>
+    <script>
+        // Statistika ma'lumotlarini yuklash
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats');
+                const data = await response.json();
+                
+                document.getElementById('total-users-stat').textContent = data.totalUsers || 0;
+            } catch (err) {
+                console.error('Statistika yuklanmadi:', err);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>

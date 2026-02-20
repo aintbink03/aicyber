@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco Packet Tracer | Noldan Professionalgacha</title>
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0c10;
+            color: #e5e7eb;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #1e3a8a, #0a0c10);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            border: 1px solid #1e293b;
+            background: #111827;
+        }
+        
+        .card-hover:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f2937;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .stat-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1e293b;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <div class="flex items-center space-x-3">
+            <i class="fas fa-check-circle text-blue-500 text-xl"></i>
+            <p id="toast-message" class="text-sm">Sahifa yuklandi</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-[#0a0c10] border-b border-gray-800 sticky top-0 z-40 backdrop-blur-sm bg-opacity-90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                    <span class="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded-full">v2.0</span>
+                </div>
+                
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-blue-400 border-b-2 border-blue-400 pb-1 flex items-center space-x-1">
+                        <i class="fas fa-home"></i>
+                        <span>Bosh sahifa</span>
+                    </a>
+                    <a href="darslar.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-book-open"></i>
+                        <span>Darslar</span>
+                    </a>
+                    <a href="loyihalar.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Loyihalar</span>
+                    </a>
+                    <a href="yuklamalar.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-download"></i>
+                        <span>Yuklamalar</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Right side -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-telegram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                    <a href="/darslar.html" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                        Boshlash
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden py-4 space-y-2">
+                <a href="index.html" class="block px-4 py-2 bg-blue-600/20 text-blue-400 rounded-lg">Bosh sahifa</a>
+                <a href="darslar.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Darslar</a>
+                <a href="loyihalar.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Loyihalar</a>
+                <a href="yuklamalar.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Yuklamalar</a>
+                <div class="flex space-x-4 px-4 pt-2">
+                    <a href="#" class="text-gray-400 hover:text-blue-400"><i class="fab fa-telegram text-xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-blue-400"><i class="fab fa-youtube text-xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl opacity-20"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <div class="inline-flex items-center bg-blue-600/20 text-blue-400 px-4 py-2 rounded-full text-sm mb-6">
+                        <i class="fas fa-certificate mr-2"></i>
+                        <span>CCNA darajasiga mos kurs</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        Cisco Packet Tracer <br>
+                        <span class="gradient-text">Noldan Professionalgacha</span>
+                    </h1>
+                    
+                    <p class="text-xl text-gray-300 mb-8">
+                        24 darslik to'liq kurs. Kompyuterlarni ulashdan tortib, 
+                        <span class="text-blue-400 font-semibold">7 qavatli bino</span> tarmoq arxitekturasigacha!
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>24 video dars</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>24+ .pkt fayl</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>Real loyihalar</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="darslar.html" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-xl text-lg font-medium transition transform hover:scale-105">
+                            <i class="fas fa-play mr-2"></i>Darslarni boshlash
+                        </a>
+                        <a href="#features" class="bg-gray-800 hover:bg-gray-700 px-8 py-4 rounded-xl text-lg font-medium transition">
+                            <i class="fas fa-info-circle mr-2"></i>Batafsil
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-4 mt-12">
+                        <div class="stat-card p-4 rounded-xl text-center">
+                            <div class="text-3xl font-bold gradient-text">24</div>
+                            <div class="text-sm text-gray-400">Darslar</div>
+                        </div>
+                        <div class="stat-card p-4 rounded-xl text-center">
+                            <div class="text-3xl font-bold gradient-text">7+</div>
+                            <div class="text-sm text-gray-400">Loyihalar</div>
+                        </div>
+                        <div class="stat-card p-4 rounded-xl text-center">
+                            <div class="text-3xl font-bold gradient-text">2.3k</div>
+                            <div class="text-sm text-gray-400">O'quvchilar</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative" data-aos="fade-left">
+                    <div class="floating">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2721/2721288.png" alt="Network" class="w-full max-w-md mx-auto">
+                    </div>
+                    
+                    <!-- Stats cards -->
+                    <div class="absolute -top-10 -left-10 bg-gray-900 p-4 rounded-xl shadow-xl hidden lg:block">
+                        <i class="fas fa-users text-blue-500 text-2xl mb-2"></i>
+                        <div class="text-2xl font-bold">2,345+</div>
+                        <div class="text-xs text-gray-400">Faol o'quvchilar</div>
+                    </div>
+                    
+                    <div class="absolute -bottom-10 -right-10 bg-gray-900 p-4 rounded-xl shadow-xl hidden lg:block">
+                        <i class="fas fa-star text-yellow-500 text-2xl mb-2"></i>
+                        <div class="text-2xl font-bold">4.9/5</div>
+                        <div class="text-xs text-gray-400">O'quvchilar reytingi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Nega aynan <span class="gradient-text">bizning kurs</span>?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Tarmoq administratori bo'lish uchun kerakli barcha bilimlar bir joyda
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-network-wired text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">24 ta to'liq dars</h3>
+                    <p class="text-gray-400">OSI modelidan tortib, 7 qavatli bino tarmoq arxitekturasigacha</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-shield-alt text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Xavfsizlik</h3>
+                    <p class="text-gray-400">Firewall, VPN, ACL, Port Security - to'liq xavfsizlik kursi</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-project-diagram text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Real loyihalar</h3>
+                    <p class="text-gray-400">7 qavatli bino, VPN tunnel, VoIP - real kompaniya tarmog'i</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-download text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">.pkt fayllar</h3>
+                    <p class="text-gray-400">Har bir dars uchun tayyor Packet Tracer laboratoriyalari</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="500">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-video text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Video darslik</h3>
+                    <p class="text-gray-400">Har bir mavzu bo'yicha batafsil video tushuntirishlar</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="card-hover p-8 rounded-2xl" data-aos="fade-up" data-aos-delay="600">
+                    <div class="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-6">
+                        <i class="fas fa-certificate text-blue-500 text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">CCNA darajasi</h3>
+                    <p class="text-gray-400">Kursni tugatganingizdan so'ng CCNA bilimiga ega bo'lasiz</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Structure -->
+    <section class="py-20 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Kurs <span class="gradient-text">tuzilishi</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    4 bosqich, 24 dars - oddiy murakkabga
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Boshlang'ich -->
+                <div class="card-hover p-6 rounded-xl" data-aos="fade-right">
+                    <div class="text-4xl mb-4">🌱</div>
+                    <h3 class="text-xl font-bold mb-2">Boshlang'ich</h3>
+                    <p class="text-gray-400 text-sm mb-4">Dars 1-6</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>OSI modeli</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>IP manzillash</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Subnetting</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>DHCP, DNS</li>
+                    </ul>
+                </div>
+                
+                <!-- O'rta -->
+                <div class="card-hover p-6 rounded-xl" data-aos="fade-up">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2">O'rta</h3>
+                    <p class="text-gray-400 text-sm mb-4">Dars 7-12</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>VLAN, Trunk</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Static routing</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>OSPF, EIGRP</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>STP, EtherChannel</li>
+                    </ul>
+                </div>
+                
+                <!-- Yuqori -->
+                <div class="card-hover p-6 rounded-xl" data-aos="fade-up">
+                    <div class="text-4xl mb-4">🛡️</div>
+                    <h3 class="text-xl font-bold mb-2">Yuqori</h3>
+                    <p class="text-gray-400 text-sm mb-4">Dars 13-18</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>Port Security</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>ACL</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>NAT, PAT</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i>IPv6</li>
+                    </ul>
+                </div>
+                
+                <!-- Ekspert -->
+                <div class="card-hover p-6 rounded-xl gradient-bg text-white" data-aos="fade-left">
+                    <div class="text-4xl mb-4">🏢</div>
+                    <h3 class="text-xl font-bold mb-2">Ekspert</h3>
+                    <p class="text-gray-200 text-sm mb-4">Dars 19-24</p>
+                    <ul class="space-y-2 text-sm">
+                        <li><i class="fas fa-check mr-2"></i>VPN, IPSec</li>
+                        <li><i class="fas fa-check mr-2"></i>Firewall (ASA)</li>
+                        <li><i class="fas fa-check mr-2"></i>Wireless, QoS</li>
+                        <li><i class="fas fa-check mr-2"></i>7 qavatli bino</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7 Qavatli Bino Preview -->
+    <section class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <div class="inline-flex items-center bg-purple-600/20 text-purple-400 px-4 py-2 rounded-full text-sm mb-6">
+                        <i class="fas fa-star mr-2"></i>
+                        <span>Yakuniy loyiha</span>
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                        🏢 7 qavatli zamonaviy bino <br>
+                        <span class="gradient-text">enterprise tarmog'i</span>
+                    </h2>
+                    
+                    <p class="text-gray-300 mb-8">
+                        Real kompaniya tarmog'ini quring. VLAN, Inter-VLAN routing, DHCP, NAT, 
+                        Firewall, WiFi va xavfsizlik sozlamalari bilan to'liq enterprise loyiha.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>7 xil VLAN</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>Core Switch (L3)</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>ASA Firewall</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check-circle text-blue-500"></i>
+                            <span>Wireless LAN</span>
+                        </div>
+                    </div>
+                    
+                    <a href="loyihalar.html" class="inline-flex items-center text-blue-400 hover:text-blue-300">
+                        Batafsil ko'rish <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+                
+                <div class="relative" data-aos="fade-left">
+                    <div class="bg-gray-900 p-6 rounded-2xl border border-gray-800">
+                        <!-- Building Visualization -->
+                        <div class="grid grid-cols-7 gap-1 mb-4">
+                            <div class="bg-purple-600 p-3 text-center rounded text-xs">7-SERVER</div>
+                            <div class="bg-blue-600 p-3 text-center rounded text-xs">6-RAHBAR</div>
+                            <div class="bg-green-600 p-3 text-center rounded text-xs">5-HR</div>
+                            <div class="bg-yellow-600 p-3 text-center rounded text-xs">4-MARKET</div>
+                            <div class="bg-red-600 p-3 text-center rounded text-xs">3-IT</div>
+                            <div class="bg-indigo-600 p-3 text-center rounded text-xs">2-BUXG</div>
+                            <div class="bg-gray-600 p-3 text-center rounded text-xs">1-QABUL</div>
+                        </div>
+                        
+                        <div class="text-center my-4">
+                            <i class="fas fa-arrow-down text-2xl text-gray-600"></i>
+                            <div class="text-sm text-gray-400">Core Switch (L3)</div>
+                            <i class="fas fa-arrow-down text-2xl text-gray-600"></i>
+                        </div>
+                        
+                        <div class="bg-orange-600 p-4 text-center rounded-lg">
+                            <i class="fas fa-shield-alt mr-2"></i>ASA Firewall
+                        </div>
+                        
+                        <div class="text-center my-2">
+                            <i class="fas fa-arrow-down text-xl text-gray-600"></i>
+                        </div>
+                        
+                        <div class="bg-blue-600 p-4 text-center rounded-lg">
+                            <i class="fas fa-globe mr-2"></i>Internet (ISP)
+                        </div>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="absolute -top-5 -right-5 bg-gray-900 p-3 rounded-lg hidden lg:block">
+                        <div class="text-2xl font-bold text-blue-400">21</div>
+                        <div class="text-xs">Kompyuter</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-16 bg-gray-900/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="zoom-in">
+                    <div class="text-4xl font-bold gradient-text mb-2">24</div>
+                    <div class="text-gray-400">Video darslar</div>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-4xl font-bold gradient-text mb-2">24+</div>
+                    <div class="text-gray-400">.pkt fayllar</div>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-4xl font-bold gradient-text mb-2">7</div>
+                    <div class="text-gray-400">Katta loyihalar</div>
+                </div>
+                <div class="text-center" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-4xl font-bold gradient-text mb-2">∞</div>
+                    <div class="text-gray-400">Amaliyot</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="gradient-bg p-12 rounded-3xl" data-aos="zoom-in">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Tarmoq administratori bo'lishni boshlang!</h2>
+                <p class="text-xl mb-8 opacity-90">24 darslik to'liq kurs. Bepul!</p>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="darslar.html" class="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-medium transition">
+                        <i class="fas fa-play mr-2"></i>Darslarni boshlash
+                    </a>
+                    <a href="yuklamalar.html" class="bg-blue-500 hover:bg-blue-400 px-8 py-4 rounded-xl text-lg font-medium transition">
+                        <i class="fas fa-download mr-2"></i>Resurslarni yuklash
+                    </a>
+                </div>
+                
+                <p class="mt-6 text-sm opacity-75">
+                    <i class="fas fa-check-circle mr-1"></i> 2,345+ o'quvchi
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                        <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                    </div>
+                    <p class="text-sm text-gray-400">Network administratorlikni noldan o'rganing. 24 darslik to'liq kurs.</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Kurs</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="darslar.html" class="hover:text-blue-400 transition">Darslar</a></li>
+                        <li><a href="loyihalar.html" class="hover:text-blue-400 transition">Loyihalar</a></li>
+                        <li><a href="yuklamalar.html" class="hover:text-blue-400 transition">Yuklamalar</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Resurslar</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-blue-400 transition">Packet Tracer yuklash</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">CLI cheat sheet</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Bog'lanish</h5>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-telegram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mt-8 pt-8 border-t border-gray-800">
+                © 2024 Cisco Packet Tracer kursi. Barcha huquqlar himoyalangan.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        
+        // Mobile menu
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Show welcome toast
+        setTimeout(() => {
+            showToast('👋 Xush kelibsiz!');
+        }, 1000);
+    </script>
+</body>
+</html>

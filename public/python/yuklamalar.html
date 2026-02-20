@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuklamalar | Python Cyber Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stillar -->
+<link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0c10 0%, #111827 100%);
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+        }
+        .navbar {
+            background: rgba(10, 12, 16, 0.95);
+            border-bottom: 1px solid #1e293b;
+        }
+        .nav-link {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #10b981;
+        }
+        .download-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+        .download-card:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fab fa-python text-green-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Python<span class="text-green-500">Sec</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/python" class="nav-link">Bosh sahifa</a>
+                    <a href="/python/darslar" class="nav-link">Darslar</a>
+                    <a href="/python/kutubxonalar" class="nav-link">Kutubxonalar</a>
+                    <a href="/python/loyihalar" class="nav-link">Loyihalar</a>
+                    <a href="/python/yuklamalar" class="nav-link active text-green-500 border-b-2 border-green-500">Yuklamalar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-4">📥 Python <span class="text-green-500">Yuklamalar</span></h1>
+        <p class="text-gray-400 mb-8">Kurs materiallari va resurslar</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="downloads-container">
+            <!-- Yuklamalar API orqali yuklanadi -->
+        </div>
+    </div>
+
+    <script>
+        async function loadYuklamalar() {
+            try {
+                const response = await fetch('/api/python/yuklamalar');
+                const yuklamalar = await response.json();
+                
+                const container = document.getElementById('downloads-container');
+                
+                if (!yuklamalar || yuklamalar.length === 0) {
+                    container.innerHTML = '<div class="text-center py-12 text-gray-400 col-span-3">Yuklamalar topilmadi</div>';
+                    return;
+                }
+                
+                container.innerHTML = yuklamalar.map(item => {
+                    let icon = 'fa-file-code';
+                    if (item.format === 'PDF') icon = 'fa-file-pdf';
+                    if (item.format === 'TXT') icon = 'fa-file-lines';
+                    if (item.format === 'ZIP') icon = 'fa-file-zipper';
+                    
+                    return `
+                    <div class="download-card p-6">
+                        <i class="fas ${icon} text-green-500 text-3xl mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">${item.nomi}</h3>
+                        <p class="text-gray-400 text-sm mb-2">Hajmi: ${item.hajmi}</p>
+                        <p class="text-gray-400 text-sm mb-4">Format: ${item.format}</p>
+                        <button onclick="downloadFile('${item.url}')" class="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg transition">
+                            <i class="fas fa-download mr-2"></i>Yuklab olish
+                        </button>
+                    </div>
+                `}).join('');
+                
+            } catch (error) {
+                console.error('Xatolik:', error);
+                document.getElementById('downloads-container').innerHTML = 
+                    '<div class="text-center py-12 text-red-400 col-span-3">❌ Yuklamalar yuklanmadi</div>';
+            }
+        }
+        
+        function downloadFile(url) {
+            alert('📥 Yuklab olinmoqda: ' + url);
+            // Haqiqiy yuklab olish uchun:
+            // window.location.href = url;
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadYuklamalar);
+    </script>
+</body>
+</html>

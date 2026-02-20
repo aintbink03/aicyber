@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Darslar | Cisco Packet Tracer Kursi</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: #0a0c10;
+            color: #e5e7eb;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .lesson-card {
+            transition: all 0.3s ease;
+            border: 1px solid #1f2937;
+            background: #111827;
+        }
+        
+        .lesson-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+        }
+        
+        .lesson-card.active {
+            border-left: 4px solid #3b82f6;
+            background: #1e293b;
+        }
+        
+        .badge-beginner {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+        
+        .badge-intermediate {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+        }
+        
+        .badge-advanced {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+        
+        .badge-expert {
+            background: rgba(139, 92, 246, 0.2);
+            color: #c084fc;
+        }
+        
+        .loader {
+            border: 3px solid #1f2937;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #1f2937;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .filter-btn.active {
+            background: #3b82f6;
+            color: white;
+        }
+    </style>
+    <script>
+    // Login tekshirish - agar foydalanuvchi kirmagan bo'lsa, login sahifasiga o'tkazish
+    (function() {
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        
+        if (!token || !user.id) {
+            // Foydalanuvchi kirmagan - login sahifasiga o'tkazish
+            window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+        }
+    })();
+</script>
+</head>
+<body>
+    <script>
+    // SODDA TEST
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('lessons-list').innerHTML = `
+            <div class="p-3 bg-blue-600/20 rounded-lg">
+                <div class="font-bold">1. Test dars</div>
+                <div class="text-xs text-gray-400">Agar bu ko'rinayotgan bo'lsa, JavaScript ishlayapti</div>
+            </div>
+        `;
+        
+        document.getElementById('lesson-content').innerHTML = `
+            <h2 class="text-2xl font-bold">Test dars</h2>
+            <p class="text-gray-400">Bu test mazmuni. Agar ko'rinayotgan bo'lsa, HTML to'g'ri</p>
+        `;
+    });
+</script>
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 hidden">
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <div class="flex items-center space-x-3">
+            <i class="fas fa-check-circle text-blue-500 text-xl"></i>
+            <p id="toast-message" class="text-sm">Fayl yuklandi</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="bg-[#0a0c10] border-b border-gray-800 sticky top-0 z-40 backdrop-blur-sm bg-opacity-90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                    <span class="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded-full">v2.0</span>
+                </div>
+                
+                <!-- Desktop menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-home"></i>
+                        <span>Bosh sahifa</span>
+                    </a>
+                    <a href="darslar.html" class="text-blue-400 border-b-2 border-blue-400 pb-1 flex items-center space-x-1">
+                        <i class="fas fa-book-open"></i>
+                        <span>Darslar</span>
+                    </a>
+                    <a href="loyihalar.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Loyihalar</span>
+                    </a>
+                    <a href="yuklamalar.html" class="text-gray-300 hover:text-blue-400 transition flex items-center space-x-1">
+                        <i class="fas fa-download"></i>
+                        <span>Yuklamalar</span>
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Right side -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button id="search-toggle" class="text-gray-400 hover:text-white transition">
+                        <i class="fas fa-search text-xl"></i>
+                    </button>
+                    
+                    <div class="relative">
+                        <button id="user-menu-btn" class="flex items-center space-x-2 bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-lg transition">
+                            <i class="fas fa-user-circle text-blue-400"></i>
+                            <span class="text-sm hidden sm:block" id="nav-username">Foydalanuvchi</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        
+                        <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 hidden">
+                            <a href="profile.html" class="block px-4 py-2 text-sm hover:bg-gray-700 transition"><i class="fas fa-user mr-2"></i>Profil</a>
+                            <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-700 transition"><i class="fas fa-cog mr-2"></i>Sozlamalar</a>
+                            <hr class="border-gray-700 my-1">
+                            <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700 transition"><i class="fas fa-sign-out-alt mr-2"></i>Chiqish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="md:hidden hidden py-4 space-y-2">
+                <a href="index.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Bosh sahifa</a>
+                <a href="darslar.html" class="block px-4 py-2 bg-blue-600/20 text-blue-400 rounded-lg">Darslar</a>
+                <a href="loyihalar.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Loyihalar</a>
+                <a href="yuklamalar.html" class="block px-4 py-2 hover:bg-gray-800 rounded-lg transition">Yuklamalar</a>
+                <hr class="border-gray-700">
+                <button id="mobile-logout" class="block w-full text-left px-4 py-2 text-red-400 hover:bg-gray-800 rounded-lg transition">Chiqish</button>
+            </div>
+            
+            <!-- Search bar (hidden by default) -->
+            <div id="search-bar" class="py-4 hidden">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-4 top-3 text-gray-500"></i>
+                    <input type="text" id="search-input" placeholder="Darslarni qidirish (masalan: VLAN, OSPF, NAT...)" 
+                           class="w-full bg-gray-900 border border-gray-700 rounded-lg pl-12 pr-4 py-3 focus:outline-none focus:border-blue-500 transition">
+                    <button id="search-clear" class="absolute right-4 top-3 text-gray-500 hover:text-white hidden">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">📚 <span class="gradient-text">24 darslik to'liq kurs</span></h1>
+            <p class="text-gray-400">Tarmoq administratori bo'lish uchun kerakli barcha mavzular</p>
+        </div>
+        
+        <!-- Filter tabs -->
+        <div class="flex flex-wrap gap-2 mb-6">
+            <button class="filter-btn active px-4 py-2 rounded-lg text-sm font-medium transition bg-blue-600 text-white" data-filter="all">
+                <i class="fas fa-layer-group mr-2"></i>Barcha darslar
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-800 hover:bg-gray-700" data-filter="beginner">
+                <i class="fas fa-seedling mr-2 text-green-400"></i>Boshlang'ich (1-6)
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-800 hover:bg-gray-700" data-filter="intermediate">
+                <i class="fas fa-chart-line mr-2 text-yellow-400"></i>O'rta (7-12)
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-800 hover:bg-gray-700" data-filter="advanced">
+                <i class="fas fa-shield-alt mr-2 text-red-400"></i>Yuqori (13-18)
+            </button>
+            <button class="filter-btn px-4 py-2 rounded-lg text-sm font-medium transition bg-gray-800 hover:bg-gray-700" data-filter="expert">
+                <i class="fas fa-crown mr-2 text-purple-400"></i>Ekspert (19-24)
+            </button>
+        </div>
+        
+        <!-- Progress section -->
+        <div class="bg-gray-900 rounded-xl p-6 mb-8">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div>
+                    <h2 class="text-lg font-semibold flex items-center">
+                        <i class="fas fa-chart-pie text-blue-500 mr-2"></i>
+                        Sizning progress
+                    </h2>
+                    <p class="text-sm text-gray-400">Tugallagan darslaringiz brauzerda saqlanadi</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <span id="completed-count" class="text-2xl font-bold text-blue-400">0</span>
+                        <span class="text-gray-400">/24</span>
+                    </div>
+                    <div class="w-48 bg-gray-700 rounded-full h-3">
+                        <div id="progress-bar" class="progress-bar bg-blue-600 h-3 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <button id="reset-progress" class="text-gray-500 hover:text-red-400 transition" title="Progressni tozalash">
+                        <i class="fas fa-undo-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main grid: Lessons sidebar + Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Lessons sidebar -->
+            <div class="lg:col-span-4 xl:col-span-3">
+                <div class="bg-gray-900 rounded-xl p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold flex items-center">
+                            <i class="fas fa-list mr-2 text-blue-500"></i>
+                            Darslar ro'yxati
+                        </h3>
+                        <span id="lessons-count" class="text-xs bg-gray-800 px-2 py-1 rounded-full">24 ta</span>
+                    </div>
+                    
+                    <div id="lessons-list" class="space-y-1">
+                        <!-- Darslar JS orqali to'ldiriladi -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Content area -->
+            <div class="lg:col-span-8 xl:col-span-9 space-y-6">
+                <!-- Active lesson content -->
+                <div id="lesson-content" class="bg-gray-900 rounded-xl p-6">
+                    <div class="flex items-center justify-center py-20">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+                
+                <!-- Muhokama (izohlar) -->
+                <div class="bg-gray-900 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-comments mr-2 text-blue-500"></i>
+                        Muhokama (izohlar)
+                        <span id="comment-count" class="ml-2 text-xs bg-gray-800 px-2 py-1 rounded-full">0</span>
+                    </h3>
+                    
+                    <!-- Izoh qo'shish -->
+                    <div class="flex space-x-3 mb-6">
+                        <div id="comment-avatar" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                            <i class="fas fa-user text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <textarea id="comment-input" placeholder="Savol yoki fikr qoldiring..." 
+                                      class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition" rows="2"></textarea>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="text-xs text-gray-500">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Izohingiz muhokama.txt ga saqlanadi
+                                </div>
+                                <button id="submit-comment" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm font-medium transition">
+                                    <i class="fas fa-paper-plane mr-2"></i>Yuborish
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Izohlar ro'yxati -->
+                    <div id="comments-list" class="space-y-4">
+                        <!-- Izohlar shu yerga chiqadi -->
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="far fa-comment-dots text-4xl mb-3"></i>
+                            <p>Izohlar yuklanmoqda...</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Yuklab olish -->
+                    <div class="mt-4 pt-4 border-t border-gray-800 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">
+                            <i class="far fa-save mr-1"></i>
+                            Barcha izohlar muhokama.txt da saqlanadi
+                        </span>
+                        <button id="download-comments" class="text-sm text-gray-400 hover:text-blue-400 transition flex items-center">
+                            <i class="fas fa-download mr-1"></i>
+                            muhokama.txt yuklash
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                        <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                    </div>
+                    <p class="text-sm text-gray-400">Network administratorlikni noldan o'rganing. 24 darslik to'liq kurs.</p>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Kurs</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="darslar.html" class="hover:text-blue-400 transition">Darslar</a></li>
+                        <li><a href="loyihalar.html" class="hover:text-blue-400 transition">Loyihalar</a></li>
+                        <li><a href="yuklamalar.html" class="hover:text-blue-400 transition">Yuklamalar</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Resurslar</h5>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-blue-400 transition">Packet Tracer yuklash</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">CLI cheat sheet</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition">Forum</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h5 class="font-semibold mb-3">Bog'lanish</h5>
+                    <div class="flex space-x-4">
+                        <a href="https://t.me/CyberAintBink" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-telegram"></i></a>
+                        <a href="https://www.youtube.com/watch?v=RBtyj21dehw" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-youtube"></i></a>
+                        <a href="https://github.com/aintbink03/aicyber" class="text-gray-400 hover:text-blue-400 text-2xl"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mt-8 pt-8 border-t border-gray-800">
+                © 2024 Cisco Packet Tracer kursi. Barcha huquqlar himoyalangan.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="comments.js"></script>
+    <script>
+        // ==================== ASOSIY FUNKSIYALAR ====================
+        
+        // Toast funksiyasi
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            const text = document.getElementById('toast-message');
+            
+            text.textContent = message;
+            
+            if (isError) {
+                toast.style.borderLeftColor = '#ef4444';
+                icon.className = 'fas fa-exclamation-circle text-red-500 text-xl';
+            } else {
+                toast.style.borderLeftColor = '#3b82f6';
+                icon.className = 'fas fa-check-circle text-blue-500 text-xl';
+            }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Mobile menu
+        document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        
+        // User menu
+        document.getElementById('user-menu-btn')?.addEventListener('click', () => {
+            document.getElementById('user-dropdown').classList.toggle('hidden');
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#user-menu-btn') && !e.target.closest('#user-dropdown')) {
+                document.getElementById('user-dropdown')?.classList.add('hidden');
+            }
+        });
+        
+        // ==================== LOGIN TEKSHIRISH ====================
+        
+        // Login tekshirish
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            
+            if (!currentUser) {
+                // Agar foydalanuvchi kirmagan bo'lsa, login sahifasiga o'tkazish
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Foydalanuvchi ismini ko'rsatish
+            document.getElementById('nav-username').textContent = currentUser.firstname || 'Foydalanuvchi';
+        });
+        
+        // Chiqish funksiyasi
+        function logout() {
+            localStorage.removeItem('current_user');
+            localStorage.removeItem('token');
+            window.location.href = 'index.html';
+        }
+        
+        document.getElementById('logout-btn')?.addEventListener('click', logout);
+        document.getElementById('mobile-logout')?.addEventListener('click', logout);
+        
+        // ==================== API SO'ROVLARI ====================
+        
+        const API_URL = 'http://localhost:5000/api';
+        
+        // Izohlarni olish
+        async function getComments(lessonId) {
+            try {
+                const response = await fetch(`${API_URL}/comments/lesson/${lessonId}`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Xatolik:', error);
+                return [];
+            }
+        }
+        
+        // Izoh qo'shish
+        async function addComment(lessonId, text) {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_URL}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    },
+                    body: JSON.stringify({ lessonId, text })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Xatolik:', error);
+                showToast('❌ Server bilan bog\'lanishda xatolik', true);
+                return null;
+            }
+        }
+        
+        // Like qo'shish
+        async function likeComment(commentId) {
+            try {
+                const response = await fetch(`${API_URL}/comments/${commentId}/like`, {
+                    method: 'POST'
+                });
+                return await response.json();
+            } catch (error) {
+                console.error('Xatolik:', error);
+                return null;
+            }
+        }
+        
+        // muhokama.txt yuklash
+        async function downloadMuhokamaTxt() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_URL}/admin/download/muhokama.txt`, {
+                    headers: {
+                        'x-auth-token': token
+                    }
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'muhokama.txt';
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    showToast('✅ muhokama.txt yuklandi!');
+                } else {
+                    showToast('❌ Fayl yuklanmadi', true);
+                }
+            } catch (error) {
+                console.error('Xatolik:', error);
+                showToast('❌ Server bilan bog\'lanishda xatolik', true);
+            }
+        }
+        
+        // ==================== IZOHLARNI KO'RSATISH ====================
+        
+        function renderComments(comments) {
+            const container = document.getElementById('comments-list');
+            
+            if (!container) return;
+            
+            if (comments.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="far fa-comment-dots text-4xl mb-3"></i>
+                        <p>Hozircha izohlar yo'q. Birinchi bo'lib izoh qoldiring!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            comments.forEach(comment => {
+                const date = new Date(comment.time).toLocaleString('uz-UZ');
+                
+                html += `
+                    <div class="bg-gray-800/30 rounded-lg p-4 mb-3">
+                        <div class="flex items-start space-x-3">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+                                ${comment.userName?.charAt(0) || 'F'}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="font-medium text-sm">${comment.userName}</span>
+                                        <span class="text-xs text-gray-500 ml-2">${date}</span>
+                                    </div>
+                                </div>
+                                <p class="text-gray-300 text-sm mt-1">${comment.text}</p>
+                                <div class="flex items-center space-x-4 mt-2">
+                                    <button class="like-btn text-xs text-gray-500 hover:text-blue-400" data-id="${comment.id}">
+                                        <i class="far fa-heart mr-1"></i>${comment.likes || 0}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            document.getElementById('comment-count').textContent = comments.length;
+            
+            // Like tugmalariga event qo'shish
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const id = this.dataset.id;
+                    await likeComment(id);
+                    // Izohlarni qayta yuklash
+                    const lessonId = window.activeLessonId || 1;
+                    const comments = await getComments(lessonId);
+                    renderComments(comments);
+                });
+            });
+        }
+        
+        // ==================== DARS YUKLANGANDA ====================
+        
+        let activeLessonId = 1;
+        
+        // Dars yuklanganda izohlarni olish
+        async function loadLessonComments(lessonId) {
+            const comments = await getComments(lessonId);
+            renderComments(comments);
+        }
+        
+        // Izoh yuborish
+        document.getElementById('submit-comment')?.addEventListener('click', async function() {
+            const input = document.getElementById('comment-input');
+            const text = input.value.trim();
+            const lessonId = activeLessonId;
+            
+            if (!text) {
+                showToast('❌ Izoh yozing!', true);
+                return;
+            }
+            
+            const newComment = await addComment(lessonId, text);
+            if (newComment) {
+                input.value = '';
+                await loadLessonComments(lessonId);
+                showToast('✅ Izoh qoldirildi!');
+            }
+        });
+        
+        // Yuklab olish
+        document.getElementById('download-comments')?.addEventListener('click', downloadMuhokamaTxt);
+        
+        // Random rang (agar kerak bo'lsa)
+        function getRandomColor(seed) {
+            const colors = [
+                'bg-red-600', 'bg-blue-600', 'bg-green-600', 'bg-yellow-600',
+                'bg-purple-600', 'bg-pink-600', 'bg-indigo-600', 'bg-teal-600'
+            ];
+            return colors[seed % colors.length];
+        }
+    </script>
+</body>
+</html>

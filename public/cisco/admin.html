@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | Cisco Packet Tracer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0a0c10; color: #e5e7eb; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .admin-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            text-align: left;
+            padding: 12px;
+            background: #1f2937;
+            color: #9ca3af;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #1f2937;
+        }
+        
+        tr:hover {
+            background: #1e293b;
+        }
+        
+        .export-btn {
+            background: #1f2937;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            background: #3b82f6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (oddiy) -->
+    <nav class="bg-[#0a0c10] border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold gradient-text">CiscoPT Admin</span>
+                </div>
+                
+                <div>
+                    <a href="index.html" class="text-gray-400 hover:text-white transition">
+                        <i class="fas fa-home mr-1"></i>Bosh sahifa
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold mb-2">📋 <span class="gradient-text">Foydalanuvchilar ro'yxati</span></h1>
+                <p class="text-gray-400">Barcha ro'yxatdan o'tgan foydalanuvchilar (klentlar.txt)</p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button id="refresh-btn" class="export-btn px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-sync-alt mr-2"></i>Yangilash
+                </button>
+                <button id="export-btn" class="export-btn px-4 py-2 rounded-lg text-sm">
+                    <i class="fas fa-download mr-2"></i>Export (TXT)
+                </button>
+            </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="admin-card p-6 rounded-xl">
+                <i class="fas fa-users text-blue-500 text-2xl mb-2"></i>
+                <div class="text-2xl font-bold" id="total-users">0</div>
+                <div class="text-sm text-gray-400">Jami foydalanuvchilar</div>
+            </div>
+            
+            <div class="admin-card p-6 rounded-xl">
+                <i class="fas fa-user-plus text-green-500 text-2xl mb-2"></i>
+                <div class="text-2xl font-bold" id="new-today">0</div>
+                <div class="text-sm text-gray-400">Bugun ro'yxatdan o'tgan</div>
+            </div>
+            
+            <div class="admin-card p-6 rounded-xl">
+                <i class="fas fa-sign-in-alt text-yellow-500 text-2xl mb-2"></i>
+                <div class="text-2xl font-bold" id="active-today">0</div>
+                <div class="text-sm text-gray-400">Bugun kirgan</div>
+            </div>
+            
+            <div class="admin-card p-6 rounded-xl">
+                <i class="fas fa-chart-line text-purple-500 text-2xl mb-2"></i>
+                <div class="text-2xl font-bold" id="avg-progress">0%</div>
+                <div class="text-sm text-gray-400">O'rtacha progress</div>
+            </div>
+        </div>
+        
+        <!-- Users Table (klentlar.txt ma'lumotlari) -->
+        <div class="admin-card rounded-xl overflow-hidden">
+            <div class="p-4 border-b border-gray-800 flex justify-between items-center">
+                <h3 class="font-semibold">📁 klentlar.txt - Foydalanuvchilar ro'yxati</h3>
+                <span class="text-xs bg-gray-800 px-3 py-1 rounded-full" id="last-updated">So'nggi yangilanish: -</span>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>To'liq ism</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Telefon</th>
+                            <th>Ro'yxatdan o'tgan sana</th>
+                            <th>Oxirgi kirish</th>
+                            <th>Progress</th>
+                            <th>Holat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <!-- Ma'lumotlar JS orqali to'ldiriladi -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- klentlar.txt Content Preview -->
+        <div class="admin-card rounded-xl p-6 mt-8">
+            <h3 class="font-semibold mb-4 flex items-center">
+                <i class="fas fa-file-alt text-blue-500 mr-2"></i>
+                klentlar.txt fayli tarkibi (jadval ko'rinishi)
+            </h3>
+            
+            <div class="bg-black rounded-lg p-4 font-mono text-sm text-green-400 overflow-x-auto">
+                <pre id="txt-preview">
+ID | Ism Familiya | Username | Email | Telefon | Ro'yxat sanasi | Oxirgi kirish | Progress
+============================================================================================
+                </pre>
+            </div>
+            
+            <div class="mt-4 flex justify-end">
+                <button id="copy-txt" class="text-sm text-gray-400 hover:text-blue-400">
+                    <i class="far fa-copy mr-1"></i>Nusxalash
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Foydalanuvchilarni yuklash va jadvalni to'ldirish
+        function loadUsers() {
+            const users = JSON.parse(localStorage.getItem('cisco_users') || '[]');
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            
+            // Admin tekshirish (oddiy tekshirish - o'zingizning emailingizni yozing)
+            const ADMIN_EMAIL = 'admin@example.com'; // BU YERGA O'Z EMAILINGIZNI YOZING
+            
+            if (!currentUser || currentUser.email !== ADMIN_EMAIL) {
+                // Agar admin bo'lmasa, bosh sahifaga o'tkazish
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Jami foydalanuvchilar
+            document.getElementById('total-users').textContent = users.length;
+            
+            // Bugun ro'yxatdan o'tganlar
+            const today = new Date().toLocaleDateString('uz-UZ');
+            const newToday = users.filter(u => 
+                u.registeredDate && u.registeredDate.includes(today)
+            ).length;
+            document.getElementById('new-today').textContent = newToday;
+            
+            // Bugun kirganlar
+            const activeToday = users.filter(u => 
+                u.lastLogin && u.lastLogin.includes(today)
+            ).length;
+            document.getElementById('active-today').textContent = activeToday;
+            
+            // O'rtacha progress
+            const totalProgress = users.reduce((sum, u) => sum + (u.progress || 0), 0);
+            const avgProgress = users.length ? Math.round(totalProgress / users.length) : 0;
+            document.getElementById('avg-progress').textContent = avgProgress + '%';
+            
+            // Jadvalni to'ldirish
+            let tableHtml = '';
+            let txtPreview = 'ID | Ism Familiya | Username | Email | Telefon | Ro\'yxat sanasi | Oxirgi kirish | Progress\n';
+            txtPreview += '='.repeat(100) + '\n';
+            
+            users.sort((a, b) => b.id - a.id).forEach(user => {
+                const status = user.lastLogin && user.lastLogin.includes(today) 
+                    ? '<span class="bg-green-500/20 text-green-400 px-2 py-1 rounded-full text-xs">Online</span>' 
+                    : '<span class="bg-gray-500/20 text-gray-400 px-2 py-1 rounded-full text-xs">Offline</span>';
+                
+                tableHtml += `<tr>
+                    <td class="text-sm">${user.id}</td>
+                    <td class="font-medium">${user.fullname || user.firstname + ' ' + user.lastname}</td>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone || '-'}</td>
+                    <td class="text-sm">${user.registeredDate || '-'}</td>
+                    <td class="text-sm">${user.lastLogin || '-'}</td>
+                    <td>
+                        <div class="flex items-center">
+                            <span class="text-sm mr-2">${user.completedLessons?.length || 0}/24</span>
+                            <div class="w-16 bg-gray-700 rounded-full h-1.5">
+                                <div class="bg-blue-600 h-1.5 rounded-full" style="width: ${Math.round(((user.completedLessons?.length || 0)/24)*100)}%"></div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${status}</td>
+                </tr>`;
+                
+                // TXT format
+                txtPreview += `${user.id} | ${user.fullname || user.firstname + ' ' + user.lastname} | ${user.username} | ${user.email} | ${user.phone || '-'} | ${user.registeredDate || '-'} | ${user.lastLogin || '-'} | ${user.completedLessons?.length || 0}/24\n`;
+            });
+            
+            document.getElementById('users-table-body').innerHTML = tableHtml;
+            document.getElementById('txt-preview').innerHTML = txtPreview;
+            document.getElementById('last-updated').textContent = 'So\'nggi yangilanish: ' + new Date().toLocaleString('uz-UZ');
+        }
+        
+        // Sahifa yuklanganda
+        document.addEventListener('DOMContentLoaded', loadUsers);
+        
+        // Yangilash tugmasi
+        document.getElementById('refresh-btn')?.addEventListener('click', loadUsers);
+        
+        // Export TXT
+        document.getElementById('export-btn')?.addEventListener('click', function() {
+            const users = JSON.parse(localStorage.getItem('cisco_users') || '[]');
+            
+            let content = "CISCO PACKET TRACER KURSI - FOYDALANUVCHILAR RO'YXATI (klentlar.txt)\n";
+            content += "=".repeat(80) + "\n\n";
+            content += "ID\tIsm Familiya\tUsername\tEmail\tTelefon\tRo'yxat sanasi\tOxirgi kirish\tProgress\n";
+            
+            users.forEach(user => {
+                content += `${user.id}\t${user.fullname || user.firstname + ' ' + user.lastname}\t${user.username}\t${user.email}\t${user.phone || '-'}\t${user.registeredDate || '-'}\t${user.lastLogin || '-'}\t${user.completedLessons?.length || 0}/24\n`;
+            });
+            
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'klentlar.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        });
+        
+        // Copy TXT
+        document.getElementById('copy-txt')?.addEventListener('click', function() {
+            const txtContent = document.getElementById('txt-preview').innerText;
+            navigator.clipboard.writeText(txtContent).then(() => {
+                alert('✅ klentlar.txt nusxalandi!');
+            });
+        });
+    </script>
+</body>
+</html>

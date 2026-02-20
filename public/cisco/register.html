@@ -1,0 +1,24 @@
+<script>
+    document.getElementById('register-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const userData = {
+            firstname: document.getElementById('firstname').value,
+            lastname: document.getElementById('lastname').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            phone: document.getElementById('phone').value
+        };
+        
+        const result = await registerUser(userData);
+        
+        if (result.success) {
+            showToast('✅ Muvaffaqiyatli ro\'yxatdan o\'tdingiz!');
+            setTimeout(() => {
+                window.location.href = 'darslar.html';
+            }, 1500);
+        } else {
+            showToast('❌ ' + result.error, true);
+        }
+    });
+</script>

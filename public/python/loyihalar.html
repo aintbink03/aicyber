@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyihalar | Python Cyber Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stillar -->
+<link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0c10 0%, #111827 100%);
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+        }
+        .navbar {
+            background: rgba(10, 12, 16, 0.95);
+            border-bottom: 1px solid #1e293b;
+        }
+        .nav-link {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #10b981;
+        }
+        .project-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+        .project-card:hover {
+            border-color: #10b981;
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fab fa-python text-green-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Python<span class="text-green-500">Sec</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/python" class="nav-link">Bosh sahifa</a>
+                    <a href="/python/darslar" class="nav-link">Darslar</a>
+                    <a href="/python/kutubxonalar" class="nav-link">Kutubxonalar</a>
+                    <a href="/python/loyihalar" class="nav-link active text-green-500 border-b-2 border-green-500">Loyihalar</a>
+                    <a href="/python/yuklamalar" class="nav-link">Yuklamalar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-4">🚀 Python <span class="text-green-500">Loyihalar</span></h1>
+        <p class="text-gray-400 mb-8">Amaliy kiberxavfsizlik loyihalari</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="projects-container">
+            <!-- Loyihalar API orqali yuklanadi -->
+        </div>
+    </div>
+
+    <script>
+        async function loadLoyihalar() {
+            try {
+                const response = await fetch('/api/python/loyihalar');
+                const loyihalar = await response.json();
+                
+                const container = document.getElementById('projects-container');
+                
+                if (!loyihalar || loyihalar.length === 0) {
+                    container.innerHTML = '<div class="text-center py-12 text-gray-400 col-span-2">Loyihalar topilmadi</div>';
+                    return;
+                }
+                
+                container.innerHTML = loyihalar.map(loyiha => `
+                    <div class="project-card p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="text-3xl mr-3">${loyiha.icon}</span>
+                                <h3 class="text-xl font-bold">${loyiha.nomi}</h3>
+                            </div>
+                            <span class="bg-green-600/20 text-green-400 px-3 py-1 rounded-full text-xs">${loyiha.level}</span>
+                        </div>
+                        <p class="text-gray-400 mb-4">${loyiha.qisqa_mazmun}</p>
+                        <div class="bg-gray-800 p-3 rounded-lg mb-4">
+                            <p class="text-sm text-gray-300">${loyiha.topshiriq}</p>
+                        </div>
+                        <button class="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg transition">
+                            <i class="fas fa-download mr-2"></i>Loyiha fayllarini yuklash
+                        </button>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Xatolik:', error);
+                document.getElementById('projects-container').innerHTML = 
+                    '<div class="text-center py-12 text-red-400 col-span-2">❌ Loyihalar yuklanmadi</div>';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadLoyihalar);
+    </script>
+</body>
+</html>

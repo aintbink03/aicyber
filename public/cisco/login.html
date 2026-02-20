@@ -1,0 +1,19 @@
+<script>
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        const result = await loginUser({ email, password });
+        
+        if (result.success) {
+            showToast('✅ Xush kelibsiz, ' + result.data.user.firstname + '!');
+            setTimeout(() => {
+                window.location.href = 'darslar.html';
+            }, 1000);
+        } else {
+            showToast('❌ ' + result.error, true);
+        }
+    });
+</script>

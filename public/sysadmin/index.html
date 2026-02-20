@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizim Administratorligi | Bosh sahifa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-section {
+            background: radial-gradient(circle at top right, #1e3a8a, #0a0c10);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-server text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Sys<span class="text-blue-500">Admin</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/" class="nav-link">Bosh sahifa</a>
+                    <a href="/sysadmin/darslar" class="nav-link">Tizim Admin</a>
+                    <a href="/cisco/darslar" class="nav-link">Cisco</a>
+                    <a href="/python/darslar" class="nav-link">Python</a>
+                    
+                    <div class="auth-buttons flex items-center space-x-4">
+                        <a href="/login" class="nav-link">Kirish</a>
+                        <a href="/register" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm">Ro'yxatdan o'tish</a>
+                    </div>
+                    
+                    <div class="profile-link hidden flex items-center space-x-4">
+                        <button onclick="userAuth.goToProfile()" class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold user-avatar hidden">U</div>
+                            <span class="user-name hidden">Foydalanuvchi</span>
+                        </button>
+                        <button onclick="userAuth.logout()" class="logout-btn bg-red-600/20 text-red-400 px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Chiqish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <i class="fas fa-server text-blue-500 text-7xl mb-6"></i>
+                <h1 class="text-5xl font-bold mb-4">Tizim <span class="gradient-text">Administratorligi</span></h1>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+                    24 darslik to'liq kurs. Linux, Windows, tarmoq, xavfsizlik, virtualizatsiya va bulut texnologiyalari.
+                </p>
+                <div class="flex justify-center gap-4">
+                    <a href="/sysadmin/darslar" class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-lg transition">
+                        Darslarni boshlash
+                    </a>
+                    <a href="/register" class="bg-gray-800 hover:bg-gray-700 px-6 py-3 rounded-lg text-lg transition">
+                        Ro'yxatdan o'tish
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12">Kurs <span class="gradient-text">modullari</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <i class="fas fa-users text-blue-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Foydalanuvchilar</h3>
+                    <p class="text-gray-400">User va group boshqaruvi, ruxsatlar, sudo, Active Directory</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <i class="fas fa-network-wired text-green-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Tarmoq</h3>
+                    <p class="text-gray-400">DNS, DHCP, web serverlar, tarmoq sozlamalari</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <i class="fas fa-shield-alt text-purple-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Xavfsizlik</h3>
+                    <p class="text-gray-400">Firewall, SELinux, SSH, monitoring, log tahlili</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <i class="fas fa-cloud text-yellow-500 text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Virtualizatsiya</h3>
+                    <p class="text-gray-400">KVM, Docker, Kubernetes, AWS, Azure</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 border-t border-gray-800 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+            © 2024 Tizim Administratorligi kursi
+        </div>
+    </footer>
+
+    <script src="/middleware.js"></script>
+</body>
+</html>

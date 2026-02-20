@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyihalar | Tizim Administratorligi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-server text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Sys<span class="text-blue-500">Admin</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/sysadmin" class="nav-link">Bosh sahifa</a>
+                    <a href="/sysadmin/darslar" class="nav-link">Darslar</a>
+                    <a href="/sysadmin/loyihalar" class="nav-link active text-blue-400 border-b-2 border-blue-400">Loyihalar</a>
+                    <a href="/sysadmin/yuklamalar" class="nav-link">Yuklamalar</a>
+                    
+                    <div class="auth-buttons flex items-center space-x-4">
+                        <a href="/login" class="nav-link">Kirish</a>
+                        <a href="/register" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm">Ro'yxatdan o'tish</a>
+                    </div>
+                    
+                    <div class="profile-link hidden flex items-center space-x-4">
+                        <button onclick="userAuth.goToProfile()" class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold user-avatar hidden">U</div>
+                            <span class="user-name hidden">Foydalanuvchi</span>
+                        </button>
+                        <button onclick="userAuth.logout()" class="logout-btn bg-red-600/20 text-red-400 px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Chiqish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-4">🚀 <span class="text-blue-500">Amaliy loyihalar</span></h1>
+        <p class="text-gray-400 mb-8">Tizim administratorligi uchun real loyihalar</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-2">🏢 Kichik ofis tarmog'i</h3>
+                <p class="text-gray-400 mb-4">10 xodimli ofis uchun to'liq server infrastrukturasi</p>
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Ubuntu Server + Windows Server</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> DNS, DHCP, Web server</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Firewall va xavfsizlik</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Avtomatik backup</div>
+                </div>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Loyiha fayllarini yuklash</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-2">☁️ Bulut infrastrukturasi</h3>
+                <p class="text-gray-400 mb-4">AWS da to'liq bulut tizimi</p>
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> EC2, S3, VPC</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Auto Scaling, Load Balancer</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> RDS (MySQL)</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> CloudWatch monitoring</div>
+                </div>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Loyiha fayllarini yuklash</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-2">🐳 Docker konteynerlar</h3>
+                <p class="text-gray-400 mb-4">Mikroservislar arxitekturasi</p>
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Nginx, Node.js, MySQL konteynerlari</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Docker Compose</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Volume va network</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Docker Swarm</div>
+                </div>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Loyiha fayllarini yuklash</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-2">📊 Monitoring tizimi</h3>
+                <p class="text-gray-400 mb-4">Zabbix + Grafana + Prometheus</p>
+                <div class="space-y-2 mb-4">
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Zabbix server o'rnatish</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Grafana dashboard</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Prometheus metrics</div>
+                    <div class="flex items-center"><i class="fas fa-check text-green-500 w-5 mr-2"></i> Alertlar va xabarlar</div>
+                </div>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Loyiha fayllarini yuklash</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+            © 2024 Tizim Administratorligi kursi
+        </div>
+    </footer>
+
+    <script src="/middleware.js"></script>
+</body>
+</html>

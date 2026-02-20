@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mening profilim | Cisco Packet Tracer</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #0a0c10; color: #e5e7eb; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .profile-card {
+            background: #111827;
+            border: 1px solid #1e293b;
+        }
+        
+        .stat-box {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-[#0a0c10] border-b border-gray-800 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-network-wired text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold gradient-text">CiscoPT</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link text-gray-300 hover:text-blue-400">Bosh sahifa</a>
+                    <a href="darslar.html" class="nav-link text-gray-300 hover:text-blue-400">Darslar</a>
+                    <a href="loyihalar.html" class="nav-link text-gray-300 hover:text-blue-400">Loyihalar</a>
+                    <a href="yuklamalar.html" class="nav-link text-gray-300 hover:text-blue-400">Yuklamalar</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <a href="profile.html" class="text-blue-400 border-b-2 border-blue-400 pb-1 flex items-center">
+                        <i class="fas fa-user-circle mr-1"></i>
+                        <span id="nav-name">Profil</span>
+                    </a>
+                    <button id="logout-btn" class="bg-red-600/20 text-red-400 hover:bg-red-600/30 px-4 py-2 rounded-lg transition flex items-center">
+                        <i class="fas fa-sign-out-alt mr-1"></i>
+                        <span class="hidden sm:inline">Chiqish</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">👤 <span class="gradient-text">Mening profilim</span></h1>
+            <p class="text-gray-400">Shaxsiy ma'lumotlaringiz va statistikangiz</p>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="profile-card rounded-xl p-6 sticky top-20">
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <span id="profile-initials" class="text-3xl font-bold text-white">JD</span>
+                        </div>
+                        <h2 id="profile-name" class="text-xl font-bold">Ism Familiya</h2>
+                        <p id="profile-email" class="text-sm text-gray-400">email@example.com</p>
+                        <p id="profile-date" class="text-xs text-gray-500 mt-2">Ro'yxatdan o'tgan: -</p>
+                    </div>
+                    
+                    <div class="border-t border-gray-800 pt-4">
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="#personal" class="flex items-center space-x-3 text-blue-400 bg-blue-600/20 p-3 rounded-lg">
+                                    <i class="fas fa-user w-5"></i>
+                                    <span>Shaxsiy ma'lumotlar</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#progress" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-gray-800 p-3 rounded-lg transition">
+                                    <i class="fas fa-chart-line w-5"></i>
+                                    <span>Mening progress</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#settings" class="flex items-center space-x-3 text-gray-400 hover:text-white hover:bg-gray-800 p-3 rounded-lg transition">
+                                    <i class="fas fa-cog w-5"></i>
+                                    <span>Sozlamalar</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="lg:col-span-3 space-y-6">
+                <!-- Welcome Card -->
+                <div class="profile-card rounded-xl p-6" id="personal">
+                    <h2 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-hand-wave text-blue-500 mr-2"></i>
+                        Xush kelibsiz, <span id="welcome-name" class="gradient-text ml-1">Foydalanuvchi</span>!
+                    </h2>
+                    <p class="text-gray-400">Cisco Packet Tracer kursidagi profilingiz. Quyida statistikangiz bilan tanishishingiz mumkin.</p>
+                </div>
+                
+                <!-- Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="stat-box rounded-xl p-6 text-center">
+                        <i class="fas fa-book-open text-blue-500 text-3xl mb-3"></i>
+                        <div class="text-3xl font-bold" id="completed-lessons">0</div>
+                        <div class="text-sm text-gray-400">Tugallangan darslar</div>
+                    </div>
+                    
+                    <div class="stat-box rounded-xl p-6 text-center">
+                        <i class="fas fa-clock text-yellow-500 text-3xl mb-3"></i>
+                        <div class="text-3xl font-bold" id="study-hours">0</div>
+                        <div class="text-sm text-gray-400">O'qilgan soatlar</div>
+                    </div>
+                    
+                    <div class="stat-box rounded-xl p-6 text-center">
+                        <i class="fas fa-trophy text-purple-500 text-3xl mb-3"></i>
+                        <div class="text-3xl font-bold" id="progress-percent">0%</div>
+                        <div class="text-sm text-gray-400">Umumiy progress</div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="profile-card rounded-xl p-6" id="progress">
+                    <h3 class="text-lg font-semibold mb-4">Kurs progressi</h3>
+                    <div class="w-full bg-gray-700 rounded-full h-4 mb-2">
+                        <div id="progress-bar" class="bg-blue-600 h-4 rounded-full" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-400">
+                        <span>0/24 dars</span>
+                        <span id="progress-text">0%</span>
+                    </div>
+                </div>
+                
+                <!-- Personal Info -->
+                <div class="profile-card rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-id-card text-blue-500 mr-2"></i>
+                        Shaxsiy ma'lumotlar
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-sm text-gray-500">Ism</label>
+                            <p id="info-firstname" class="text-lg font-medium">-</p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm text-gray-500">Familiya</label>
+                            <p id="info-lastname" class="text-lg font-medium">-</p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm text-gray-500">Email</label>
+                            <p id="info-email" class="text-lg font-medium">-</p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm text-gray-500">To'liq ism</label>
+                            <p id="info-fullname" class="text-lg font-medium">-</p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm text-gray-500">Ro'yxatdan o'tgan sana</label>
+                            <p id="info-regdate" class="text-lg font-medium">-</p>
+                        </div>
+                        
+                        <div>
+                            <label class="text-sm text-gray-500">Oxirgi kirish</label>
+                            <p id="info-lastlogin" class="text-lg font-medium">-</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex space-x-3">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg transition flex items-center">
+                            <i class="fas fa-edit mr-2"></i>Tahrirlash
+                        </button>
+                        <button class="bg-gray-800 hover:bg-gray-700 px-6 py-2 rounded-lg transition flex items-center">
+                            <i class="fas fa-key mr-2"></i>Parolni o'zgartirish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sahifa yuklanganda
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentUser = JSON.parse(localStorage.getItem('current_user'));
+            
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Foydalanuvchi ma'lumotlarini olish
+            const users = JSON.parse(localStorage.getItem('cisco_users') || '[]');
+            const user = users.find(u => u.id === currentUser.userId);
+            
+            if (user) {
+                // Navigation
+                document.getElementById('nav-name').textContent = user.firstname;
+                
+                // Initials
+                const initials = (user.firstname?.charAt(0) || '') + (user.lastname?.charAt(0) || '');
+                document.getElementById('profile-initials').textContent = initials || 'U';
+                
+                // Profile header
+                document.getElementById('profile-name').textContent = user.fullname;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('profile-date').textContent = `Ro'yxatdan o'tgan: ${user.registeredDate || '-'}`;
+                
+                // Welcome
+                document.getElementById('welcome-name').textContent = user.firstname;
+                
+                // Personal info
+                document.getElementById('info-firstname').textContent = user.firstname;
+                document.getElementById('info-lastname').textContent = user.lastname;
+                document.getElementById('info-email').textContent = user.email;
+                document.getElementById('info-fullname').textContent = user.fullname;
+                document.getElementById('info-regdate').textContent = user.registeredDate || '-';
+                document.getElementById('info-lastlogin').textContent = user.lastLogin || '-';
+                
+                // Progress
+                const completed = user.completedLessons?.length || 0;
+                const percent = Math.round((completed / 24) * 100);
+                
+                document.getElementById('completed-lessons').textContent = completed;
+                document.getElementById('progress-percent').textContent = percent + '%';
+                document.getElementById('progress-bar').style.width = percent + '%';
+                document.getElementById('progress-text').textContent = percent + '% (' + completed + '/24)';
+                
+                // Study hours (taxminiy)
+                const hours = completed * 0.5; // Har bir dars 30 minut
+                document.getElementById('study-hours').textContent = hours.toFixed(1);
+            }
+        });
+        
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', function() {
+            localStorage.removeItem('current_user');
+            window.location.href = 'index.html';
+        });
+    </script>
+    <!-- Profilda foydalanuvchi izohlari -->
+<div class="profile-card rounded-xl p-6">
+    <h3 class="text-lg font-semibold mb-4 flex items-center">
+        <i class="fas fa-comment-dots text-blue-500 mr-2"></i>
+        Mening izohlarim
+    </h3>
+    
+    <div id="user-comments" class="space-y-3">
+        <!-- Izohlar yuklanadi -->
+    </div>
+</div>
+
+<script>
+    // Foydalanuvchi izohlarini ko'rsatish
+    function loadUserComments() {
+        const currentUser = JSON.parse(localStorage.getItem('current_user'));
+        if (!currentUser) return;
+        
+        const comments = loadComments();
+        const userComments = comments.filter(c => c.userId === currentUser.userId);
+        
+        let html = '';
+        if (userComments.length === 0) {
+            html = '<p class="text-gray-500 text-center py-4">Hali izoh qoldirmagansiz</p>';
+        } else {
+            userComments.slice(0, 5).forEach(comment => {
+                const dars = darslar.find(d => d.id === comment.lessonId);
+                html += `
+                    <div class="bg-gray-800/50 rounded-lg p-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-xs text-blue-400">Dars ${comment.lessonId}: ${dars?.nomi || 'Noma\'lum'}</span>
+                                <p class="text-sm mt-1">${comment.text}</p>
+                            </div>
+                            <span class="text-xs text-gray-500">${formatTimeAgo(comment.time)}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        
+        document.getElementById('user-comments').innerHTML = html;
+    }
+    
+    // Profil yuklanganda
+    document.addEventListener('DOMContentLoaded', function() {
+        // ... avvalgi kodlar ...
+        loadUserComments();
+    });
+</script>
+</body>
+</html>

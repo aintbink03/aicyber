@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuklamalar | Tizim Administratorligi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-server text-blue-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Sys<span class="text-blue-500">Admin</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/sysadmin" class="nav-link">Bosh sahifa</a>
+                    <a href="/sysadmin/darslar" class="nav-link">Darslar</a>
+                    <a href="/sysadmin/loyihalar" class="nav-link">Loyihalar</a>
+                    <a href="/sysadmin/yuklamalar" class="nav-link active text-blue-400 border-b-2 border-blue-400">Yuklamalar</a>
+                    
+                    <div class="auth-buttons flex items-center space-x-4">
+                        <a href="/login" class="nav-link">Kirish</a>
+                        <a href="/register" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm">Ro'yxatdan o'tish</a>
+                    </div>
+                    
+                    <div class="profile-link hidden flex items-center space-x-4">
+                        <button onclick="userAuth.goToProfile()" class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold user-avatar hidden">U</div>
+                            <span class="user-name hidden">Foydalanuvchi</span>
+                        </button>
+                        <button onclick="userAuth.logout()" class="logout-btn bg-red-600/20 text-red-400 px-4 py-2 rounded-lg text-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Chiqish
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-4">📥 <span class="text-blue-500">Yuklamalar</span></h1>
+        <p class="text-gray-400 mb-8">Kurs materiallari va resurslar</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-gray-800 rounded-xl p-6">
+                <i class="fas fa-file-code text-blue-500 text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Barcha dars kodlari</h3>
+                <p class="text-gray-400 text-sm mb-2">Hajmi: 3.2 MB</p>
+                <p class="text-gray-400 text-sm mb-4">Format: ZIP</p>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Yuklab olish</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6">
+                <i class="fas fa-file-pdf text-red-500 text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Cheat sheet</h3>
+                <p class="text-gray-400 text-sm mb-2">Hajmi: 1.5 MB</p>
+                <p class="text-gray-400 text-sm mb-4">Format: PDF</p>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Yuklab olish</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6">
+                <i class="fas fa-file-zipper text-yellow-500 text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Virtual mashinalar</h3>
+                <p class="text-gray-400 text-sm mb-2">Hajmi: 4.8 GB</p>
+                <p class="text-gray-400 text-sm mb-4">Format: OVA</p>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Yuklab olish</button>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6">
+                <i class="fas fa-file-lines text-green-500 text-3xl mb-4"></i>
+                <h3 class="text-xl font-bold mb-2">Loyiha fayllari</h3>
+                <p class="text-gray-400 text-sm mb-2">Hajmi: 5.1 MB</p>
+                <p class="text-gray-400 text-sm mb-4">Format: ZIP</p>
+                <button class="w-full bg-blue-600 hover:bg-blue-700 py-2 rounded-lg">Yuklab olish</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 border-t border-gray-800 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+            © 2024 Tizim Administratorligi kursi
+        </div>
+    </footer>
+
+    <script src="/middleware.js"></script>
+</body>
+</html>

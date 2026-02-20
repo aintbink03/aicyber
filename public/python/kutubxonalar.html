@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutubxonalar | Python Cyber Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS stillar -->
+<link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0c10 0%, #111827 100%);
+            color: #e5e7eb;
+            font-family: 'Inter', sans-serif;
+        }
+        .navbar {
+            background: rgba(10, 12, 16, 0.95);
+            border-bottom: 1px solid #1e293b;
+        }
+        .nav-link {
+            color: #9ca3af;
+            transition: color 0.3s;
+        }
+        .nav-link:hover,
+        .nav-link.active {
+            color: #10b981;
+        }
+        .card {
+            background: #111827;
+            border: 1px solid #1e293b;
+            border-radius: 1rem;
+            transition: all 0.3s;
+        }
+        .card:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fab fa-python text-green-500 text-2xl"></i>
+                    <span class="text-xl font-bold text-white">Python<span class="text-green-500">Sec</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/python" class="nav-link">Bosh sahifa</a>
+                    <a href="/python/darslar" class="nav-link">Darslar</a>
+                    <a href="/python/kutubxonalar" class="nav-link active text-green-500 border-b-2 border-green-500">Kutubxonalar</a>
+                    <a href="/python/loyihalar" class="nav-link">Loyihalar</a>
+                    <a href="/python/yuklamalar" class="nav-link">Yuklamalar</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold mb-4">📚 Python <span class="text-green-500">Kutubxonalar</span></h1>
+        <p class="text-gray-400 mb-8">Kiberxavfsizlik sohasida eng ko'p qo'llaniladigan Python kutubxonalari</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="libraries-container">
+            <!-- Kutubxonalar API orqali yuklanadi -->
+        </div>
+    </div>
+
+    <script>
+        async function loadKutubxonalar() {
+            try {
+                const response = await fetch('/api/python/kutubxonalar');
+                const kutubxonalar = await response.json();
+                
+                const container = document.getElementById('libraries-container');
+                
+                if (!kutubxonalar || kutubxonalar.length === 0) {
+                    container.innerHTML = '<div class="text-center py-12 text-gray-400 col-span-3">Kutubxonalar topilmadi</div>';
+                    return;
+                }
+                
+                container.innerHTML = kutubxonalar.map(lib => `
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold mb-2 text-green-400">${lib.nomi}</h3>
+                        <p class="text-sm text-gray-400 mb-3">${lib.darslar.length} ta darsda qo'llaniladi</p>
+                        <div class="flex flex-wrap gap-2">
+                            ${lib.darslar.map(d => `<span class="bg-gray-700 px-2 py-1 rounded text-xs">Dars ${d}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                console.error('Xatolik:', error);
+                document.getElementById('libraries-container').innerHTML = 
+                    '<div class="text-center py-12 text-red-400 col-span-3">❌ Kutubxonalar yuklanmadi</div>';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', loadKutubxonalar);
+    </script>
+</body>
+</html>
